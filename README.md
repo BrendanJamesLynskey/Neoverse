@@ -2,7 +2,7 @@
 
 Interactive slide decks covering Arm's **Neoverse** infrastructure and server-class CPU family — from the first Neoverse N1 (Graviton 2, 2019) through the current **N3 / V3** generations, the **CMN mesh interconnects** that glue them together, the **Server Base System Architecture (SBSA)** platform contract, and the **hyperscaler ecosystem** that has made Arm servers a ~50 % share of AWS compute.
 
-Designed as interview preparation for server-silicon, infrastructure, and performance engineers targeting Arm, AWS, Ampere, NVIDIA, Microsoft, and other Neoverse customers.
+Designed for server-silicon, infrastructure, and performance engineers working with Arm, AWS, Ampere, NVIDIA, Microsoft, and other Neoverse silicon.
 
 ## ▶ [Open the Series Landing Page](https://brendanjameslynskey.github.io/Neoverse/)
 

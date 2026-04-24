@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CMN Mesh Interconnect — CMN-600 / 650 / 700 / S3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/theme/black.min.css">
+<style>
+  :root { --amber:#f5a623;--green:#4ecb8d;--purple:#a78bfa;--blue:#60a5fa;--red:#f87171; --bg:#0a0a0f;--bg2:#10101a;--bg3:#181824;--border:#2a2a3a;--text:#e8e8f0;--muted:#8888a8; }
+  .reveal-viewport { background: var(--bg); }
+  .reveal .slides section { background: transparent; }
+  .reveal section { text-align: left; }
+  .reveal .slides > section { padding: 0.5em; overflow-y: auto !important; align-items: flex-start !important; justify-content: flex-start !important; }
+  .reveal .progress { color: var(--amber); height: 3px; } .reveal .controls { color: var(--amber); }
+  .reveal section::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--amber), var(--green)); }
+  .reveal { font-family: 'DM Sans', sans-serif; color: var(--text); font-size: 22px; }
+  .reveal .slide-number { font-family: 'JetBrains Mono', monospace; font-size: 0.7em; color: var(--muted); }
+  .reveal h1, .reveal h2, .reveal h3 { font-family: 'Playfair Display', serif; color: #fff; text-transform: none; letter-spacing: -0.01em; }
+  .reveal h1 { font-size: 2.4em; font-weight: 900; color: var(--amber); line-height: 1.1; }
+  .reveal h2 { font-size: 1.7em; font-weight: 700; color: var(--amber); margin-bottom: 0.6em; }
+  .reveal h3 { font-size: 1.2em; font-weight: 700; color: var(--green); margin-bottom: 0.3em; }
+  .reveal p  { font-size: 0.75em; line-height: 1.5; color: var(--text); }
+  .reveal li { font-size: 0.7em; line-height: 1.5; margin-bottom: 0.25em; }
+  .reveal code { font-family: 'JetBrains Mono', monospace; font-size: .72em; }
+  .reveal pre  { background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 0.5em 1em; margin: 0.4em 0; width: 100%; box-shadow: none; }
+  .reveal pre code { font-size: 0.58em; line-height: 1.5; background: transparent; color: #cdd6f4; }
+  .slide-hdr { display: flex; align-items: center; gap: .4em; border-bottom: 1px solid var(--border); padding-bottom: .2em; margin-bottom: .3em; }
+  .slide-hdr .tag { font-family: 'JetBrains Mono', monospace; font-size: 0.55em; font-weight: 600; color: var(--bg); background: var(--amber); padding: .1em .4em; border-radius: 3px; letter-spacing: .04em; }
+  .slide-hdr h2 { margin: 0; font-size: 1.4em; }
+  .cols{display:grid;gap:1em;} .cols-2{grid-template-columns:1fr 1fr;} .cols-3{grid-template-columns:1fr 1fr 1fr;} .cols-6040{grid-template-columns:6fr 4fr;} .cols-4060{grid-template-columns:4fr 6fr;}
+  .card { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 1em 1.2em; box-shadow: 0 4px 20px rgba(0,0,0,0.3); margin: 0.4em 0; }
+  .card.amber { border-left: 3px solid var(--amber); } .card.green { border-left: 3px solid var(--green); } .card.purple{ border-left: 3px solid var(--purple); } .card.blue  { border-left: 3px solid var(--blue); } .card.red   { border-left: 3px solid var(--red); }
+  .card h3 { font-size: 1em; margin: 0 0 0.4em; }
+  .card p, .card ul { font-size: 0.8em; margin: 0; color: #b8b8d0; } .card ul { padding-left: 1.2em; } .card li { font-size: 0.85em; margin-bottom: 0.25em; }
+  .reveal table { width: 100%; border-collapse: collapse; font-size: 0.65em; margin: 0.5em 0; }
+  .reveal table th { background: var(--bg3); color: var(--amber); padding: 0.5em 0.7em; border: 1px solid var(--border); text-align: left; font-weight: 700; }
+  .reveal table td { padding: 0.5em 0.7em; border: 1px solid var(--border); color: #ccc; vertical-align: top; }
+  .reveal table tr:nth-child(even) td { background: #0e0e18; }
+  .a{color:var(--amber);font-weight:600;} .g{color:var(--green);font-weight:600;} .p{color:var(--purple);font-weight:600;} .b{color:var(--blue);font-weight:600;} .r{color:var(--red);font-weight:600;} .mono{font-family:'JetBrains Mono',monospace;}
+  svg.diagram { display: block; margin: 0 auto; overflow: visible; }
+  .title-slide h1 { font-size: 2.4em; } .title-slide .subtitle { font-size: 0.85em; color: var(--green); font-weight: 400; letter-spacing: 0.06em; margin: 0.3em 0 0.6em; } .title-slide .meta { font-size: 0.6em; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+  .dim { color: var(--muted); } .small { font-size: 0.65em; } .smaller { font-size: 0.55em; } .tiny { font-size: 0.48em; }
+  .reveal ul, .reveal ol { margin: .15em 0 .15em 1em; }
+</style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<section class="title-slide" data-background-color="#0a0a0f">
+  <div style="font-family:'JetBrains Mono',monospace;font-size:.5em;color:var(--muted);margin-bottom:.4em;letter-spacing:.1em;">ARM NEOVERSE · PRESENTATION 03</div>
+  <h1>CMN Mesh Interconnect</h1>
+  <div class="subtitle">CMN-600 · 650 · 700 · S3 · the fabric that makes 192-core sockets possible</div>
+  <div style="width:60px;height:3px;background:var(--amber);margin-bottom:1.4em;"></div>
+  <div class="meta">RN-F · HN-F · SN-F · RN-I · MN · SLC slicing · Snoop filter · CHI-B/C/E · CCIX · CXL · UCIe</div>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">02</span><h2>Why a Mesh, Not a Bus</h2></div>
+  <div class="cols cols-2">
+    <div>
+      <ul>
+        <li>Up to ~16 cores, a single shared coherent bus (AMBA ACE) works.</li>
+        <li>Beyond ~16 cores the bus becomes the bottleneck: every snoop broadcasts to every core.</li>
+        <li>Arm's answer (2017): a <strong>2-D mesh</strong> with CHI (Coherent Hub Interface) transport. Each tile routes packets independently; no shared bus.</li>
+        <li>Snoops become <strong>directory-filtered</strong> — only cores known to hold a line are snooped.</li>
+        <li>Mesh is what makes 128-192 cores per socket feasible — AMBA 4 ACE topped out around 16 coherent cores.</li>
+      </ul>
+    </div>
+    <div>
+      <svg viewBox="0 0 340 240" style="width:100%;">
+        <rect x="10" y="10" width="320" height="220" rx="10" fill="#10101a" stroke="#f5a623"/>
+        <text x="170" y="32" text-anchor="middle" fill="#f5a623" font-family="Playfair Display" font-weight="700" font-size="13">CMN mesh, 4×4 tiles</text>
+        <g stroke="#555" stroke-width="1">
+          <!-- horizontal -->
+          <line x1="70" y1="70" x2="280" y2="70"/>
+          <line x1="70" y1="110" x2="280" y2="110"/>
+          <line x1="70" y1="150" x2="280" y2="150"/>
+          <line x1="70" y1="190" x2="280" y2="190"/>
+          <!-- vertical -->
+          <line x1="70" y1="70" x2="70" y2="190"/>
+          <line x1="140" y1="70" x2="140" y2="190"/>
+          <line x1="210" y1="70" x2="210" y2="190"/>
+          <line x1="280" y1="70" x2="280" y2="190"/>
+        </g>
+        <g font-family="JetBrains Mono" font-size="8">
+          <circle cx="70" cy="70"  r="10" fill="#2a1a0a" stroke="#f5a623"/><text x="70" y="73" text-anchor="middle" fill="#f5a623">R</text>
+          <circle cx="140" cy="70" r="10" fill="#2a1a0a" stroke="#f5a623"/><text x="140" y="73" text-anchor="middle" fill="#f5a623">R</text>
+          <circle cx="210" cy="70" r="10" fill="#1f3a1f" stroke="#4ecb8d"/><text x="210" y="73" text-anchor="middle" fill="#4ecb8d">H</text>
+          <circle cx="280" cy="70" r="10" fill="#1a2540" stroke="#60a5fa"/><text x="280" y="73" text-anchor="middle" fill="#60a5fa">S</text>
+          <circle cx="70" cy="110" r="10" fill="#2a1a0a" stroke="#f5a623"/><text x="70" y="113" text-anchor="middle" fill="#f5a623">R</text>
+          <circle cx="140" cy="110" r="10" fill="#1f3a1f" stroke="#4ecb8d"/><text x="140" y="113" text-anchor="middle" fill="#4ecb8d">H</text>
+          <circle cx="210" cy="110" r="10" fill="#2a1a0a" stroke="#f5a623"/><text x="210" y="113" text-anchor="middle" fill="#f5a623">R</text>
+          <circle cx="280" cy="110" r="10" fill="#2a1a2a" stroke="#a78bfa"/><text x="280" y="113" text-anchor="middle" fill="#a78bfa">I</text>
+          <circle cx="70" cy="150" r="10" fill="#1a2540" stroke="#60a5fa"/><text x="70" y="153" text-anchor="middle" fill="#60a5fa">S</text>
+          <circle cx="140" cy="150" r="10" fill="#2a1a0a" stroke="#f5a623"/><text x="140" y="153" text-anchor="middle" fill="#f5a623">R</text>
+          <circle cx="210" cy="150" r="10" fill="#1f3a1f" stroke="#4ecb8d"/><text x="210" y="153" text-anchor="middle" fill="#4ecb8d">H</text>
+          <circle cx="280" cy="150" r="10" fill="#2a1a0a" stroke="#f5a623"/><text x="280" y="153" text-anchor="middle" fill="#f5a623">R</text>
+          <circle cx="70" cy="190" r="10" fill="#2a1a2a" stroke="#a78bfa"/><text x="70" y="193" text-anchor="middle" fill="#a78bfa">I</text>
+          <circle cx="140" cy="190" r="10" fill="#1a2540" stroke="#60a5fa"/><text x="140" y="193" text-anchor="middle" fill="#60a5fa">S</text>
+          <circle cx="210" cy="190" r="10" fill="#2a1a0a" stroke="#f5a623"/><text x="210" y="193" text-anchor="middle" fill="#f5a623">R</text>
+          <circle cx="280" cy="190" r="10" fill="#1f3a1f" stroke="#4ecb8d"/><text x="280" y="193" text-anchor="middle" fill="#4ecb8d">H</text>
+        </g>
+        <text x="20" y="220" font-family="JetBrains Mono" font-size="8" fill="#cdd6f4">R=RN-F (core)  H=HN-F (home/SLC)  S=SN-F (DRAM)  I=RN-I (I/O)</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">03</span><h2>Node Types in a CMN Mesh</h2></div>
+  <table>
+    <tr><th>Node</th><th>Type</th><th>Role</th></tr>
+    <tr><td><span class="a">RN-F</span></td><td>Fully-coherent Request Node</td><td>CPU cluster (Neoverse cores). Has a cache; issues coherent REQs.</td></tr>
+    <tr><td><span class="a">RN-D</span></td><td>Request Node with DVM</td><td>Variant that handles Distributed Virtual Memory (TLB invalidate broadcasts)</td></tr>
+    <tr><td><span class="a">RN-I</span></td><td>I/O Request Node</td><td>IO bridge — PCIe, SMMU, Network, accelerator; non-caching requester</td></tr>
+    <tr><td><span class="a">HN-F</span></td><td>Fully-coherent Home Node</td><td>Owns a slice of the SLC; snoop filter resides here; directory for the lines it hosts</td></tr>
+    <tr><td><span class="a">HN-I</span></td><td>I/O Home Node</td><td>Home for memory-mapped I/O addresses</td></tr>
+    <tr><td><span class="a">SN-F</span></td><td>Fully-coherent Slave Node</td><td>Memory controller — backs HN-F misses to DRAM</td></tr>
+    <tr><td><span class="a">MN</span></td><td>Miscellaneous Node</td><td>Barriers, events, resets, debug; system coordination services</td></tr>
+    <tr><td><span class="a">CML</span></td><td>CXS / Chiplet Link</td><td>Bridges mesh to another mesh (chiplet-to-chiplet over UCIe or CCIX)</td></tr>
+  </table>
+  <p class="small">The <strong>HN-F is the star of the show</strong> — it holds the snoop filter (directory) for its address range + a slice of the shared last-level cache (SLC). Every read to a coherent address goes to the HN-F for that address.</p>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">04</span><h2>SLC Slicing — Distributed Last-Level Cache</h2></div>
+  <div class="cols cols-2">
+    <div>
+      <ul>
+        <li>The SLC (System Level Cache) is <strong>distributed</strong> across HN-F nodes. Each HN-F holds a slice.</li>
+        <li>Address hash picks the HN-F: usually <span class="mono">hash(PA[47:6])</span> → HN-F index. Sometimes the hash is <strong>interleaved by cache line</strong> to spread bandwidth; sometimes by page to improve locality.</li>
+        <li>Typical SLC slice: 2-8 MB per HN-F. A 32-HN-F mesh with 8 MB slices = <strong>256 MB SLC</strong>.</li>
+        <li>Neoverse V2 Grace: <strong>117 MB SLC</strong> across the CMN-700 mesh.</li>
+        <li>Graviton 3: ~64 MB. Graviton 4: <strong>192 MB</strong>.</li>
+        <li>Slice selection is normally fixed in hardware; MPAM partitioning adjusts <em>how much</em> of each slice a tenant can use.</li>
+      </ul>
+    </div>
+    <div>
+      <div class="card amber">
+        <h3>Hash-based interleaving</h3>
+        <p>Hashing by cache-line index (XOR of high + low address bits) gives uniform load across HN-Fs. The cost: a sequential memory stream touches many HN-Fs on every line — more mesh traversal. Hash-by-page trades load balance for locality.</p>
+      </div>
+      <div class="card green" style="margin-top:0.4em;">
+        <h3 class="g">The snoop filter lives here too</h3>
+        <p>Each HN-F keeps a directory of which RN-Fs cache the lines it owns. Snoops are <strong>targeted</strong>, not broadcast — this is what makes 128+ core scaling possible.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">05</span><h2>The Four CHI Message Channels</h2></div>
+  <table>
+    <tr><th>Channel</th><th>Direction</th><th>Purpose</th></tr>
+    <tr><td><span class="a">REQ</span> (Request)</td><td>RN → HN</td><td>Read / Write / Atomic / Snoop-response request</td></tr>
+    <tr><td><span class="a">RSP</span> (Response)</td><td>HN / SN → RN</td><td>Completion, retry, credit returns</td></tr>
+    <tr><td><span class="a">SNP</span> (Snoop)</td><td>HN → RN-F</td><td>Coherence snoop — ReadShared / ReadUnique / Invalidate</td></tr>
+    <tr><td><span class="a">DAT</span> (Data)</td><td>Any → Any</td><td>Cache-line data payload (64 B)</td></tr>
+  </table>
+  <p class="small">Each channel is independent — backpressure on one doesn't block the others. Credit-based flow control: requester gets a "slot" before issuing.</p>
+  <div class="card amber" style="margin-top:0.4em;">
+    <h3>A canonical read</h3>
+    <p>1) RN-F issues <span class="mono">ReadShared</span> on REQ to HN-F. 2) HN-F consults snoop filter: if another RN-F has it Unique, HN-F sends <span class="mono">SnpShared</span> on SNP to that RN-F. 3) RN-F sends data on DAT to HN-F, RSP to acknowledge. 4) HN-F forwards DAT to the original requester, plus a completion RSP. 5) The requester's cache transitions I → SC.</p>
+  </div>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">06</span><h2>DMT &amp; DCT — Direct Transfer Optimizations</h2></div>
+  <div class="cols cols-2">
+    <div>
+      <ul>
+        <li><strong class="a">DMT</strong> — Direct Memory Transfer. When HN-F sees that its SLC doesn't have the line and it's going to DRAM, it tells the SN-F (memory controller) to <strong>send the data directly to the requester</strong>, bypassing the HN-F.</li>
+        <li><strong class="a">DCT</strong> — Direct Cache Transfer. When another RN-F holds the line, HN-F arranges for that RN-F to <strong>send data directly to the requester</strong>, not through HN-F.</li>
+        <li>Both save a hop + buffer at the HN-F. Big effect on latency-sensitive DB/KV workloads (typical L3-miss latency drops ~20 cycles).</li>
+        <li>CMN-700 adds <strong>DVMv9 snoop filtering</strong> — TLB invalidates (DVM messages) are filtered by scoped VMID / ASID, avoiding bus-wide broadcasts.</li>
+      </ul>
+    </div>
+    <div>
+      <div class="card green">
+        <h3 class="g">Why DMT / DCT matter</h3>
+        <p>DDR access is already 70-90 ns. Adding another 20+ cycles of mesh hops at the HN-F matters for P99 latency on Redis, Memcached, Cassandra. These optimisations are why CMN-700 beats earlier meshes by 2-3× on tail latency.</p>
+      </div>
+      <div class="card blue" style="margin-top:0.4em;">
+        <h3 class="b">Cache stashing</h3>
+        <p>CHI also supports &quot;cache stashing&quot; — I/O devices (NIC, NVMe) can hint data into a CPU's L2 ahead of the CPU reading it. Widely used for NIC → CPU packet processing.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">07</span><h2>CMN-600 — the First Neoverse Mesh (2018)</h2></div>
+  <div class="cols cols-2">
+    <div>
+      <ul>
+        <li>Launched in 2018. Up to 8×8 mesh = 64 nodes, 128 coherent RN-Fs.</li>
+        <li>CHI-A transport. Up to 1 TB/s aggregate bandwidth on a single mesh.</li>
+        <li>Supports cache stashing, MPAM v0, RAS framework.</li>
+        <li>Shipping in: <strong>AWS Graviton 2</strong>, <strong>Ampere Altra</strong>, <strong>eMAG</strong>, <strong>Huawei Kunpeng 920</strong>.</li>
+        <li>Limitation: no native PCIe Gen 4/5, no CXL. Had to use external NICs.</li>
+      </ul>
+      <h3>CMN-650 (2020)</h3>
+      <ul>
+        <li>Mid-step refresh. CHI-B transport.</li>
+        <li>Added <strong>CCIX 1.1</strong> support (coherent accelerator attach over PCIe).</li>
+        <li>First hooks for <strong>CXL 1.1</strong>.</li>
+      </ul>
+    </div>
+    <div>
+      <div class="card amber">
+        <h3>Graviton 2 topology</h3>
+        <p>64 N1 cores across a 4×8 subset of the mesh (32 tiles used). 2 × 16 MB SLC per half, total 32 MB. 8 × DDR4-3200 channels, 4 × PCIe Gen 4 roots. ~400 W TDP at 64 cores active.</p>
+      </div>
+      <div class="card blue" style="margin-top:0.4em;">
+        <h3 class="b">Ampere Altra sidenote</h3>
+        <p>Same CMN-600, but with <strong>80 N1 cores</strong> at 3.0 GHz (later 3.3 GHz for Altra Max). Ampere was the first commodity N1 server — Amazon's Graviton 2 was technically first but exclusive.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">08</span><h2>CMN-700 — the v9 Generation (2021)</h2></div>
+  <div class="cols cols-2">
+    <div>
+      <ul>
+        <li>Up to <strong>12×12 mesh</strong> = 144 nodes, up to 256 RN-Fs.</li>
+        <li>CHI-E transport. Higher radix per switch, wider data paths (up to 512-bit).</li>
+        <li><strong>CXL 2.0</strong> support via CXS-to-CXL bridge; allows memory pooling.</li>
+        <li><strong>MPAM v1</strong> mandatory — QoS on bandwidth + cache partitioning.</li>
+        <li><strong>DVM filtering</strong> — targeted TLB invalidates rather than broadcast.</li>
+        <li>Introduced <strong>slice hashing by locality</strong> as an option — reduces mesh traversal on sequential streams.</li>
+        <li>Shipping in: <strong>Microsoft Cobalt 100</strong>, <strong>Alibaba Yitian 710</strong>, <strong>Graviton 4</strong>, <strong>NVIDIA Grace</strong>.</li>
+      </ul>
+    </div>
+    <div>
+      <div class="card green">
+        <h3 class="g">CXL 2.0 as architected</h3>
+        <p>CMN-700 presents <strong>HN-F home nodes for CXL.mem ranges</strong> — remote memory pool appears as coherent DRAM. Hyperscale use: disaggregated DRAM tiers, giving tens of TB per rack addressable from every socket.</p>
+      </div>
+      <div class="card purple" style="margin-top:0.4em;">
+        <h3 class="p">NVLink-C2C piggybacks</h3>
+        <p>NVIDIA Grace uses CMN-700 with a proprietary <strong>C2C bridge</strong> from CHI to NVLink — 900 GB/s coherent to Hopper/Blackwell GPU. Same semantics as CXL but much higher bandwidth.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">09</span><h2>CMN S3 — the 2024 Chiplet-Aware Mesh</h2></div>
+  <div class="cols cols-2">
+    <div>
+      <ul>
+        <li>Launched at Arm Neoverse Tech Day 2024. Paired with N3 / V3 + CSS.</li>
+        <li>Key shifts vs CMN-700:
+          <ul>
+            <li><strong>CHI-E2</strong> transport — wider, higher-frequency data paths</li>
+            <li><strong>Unified on-die + chiplet topology</strong> — the mesh spans multiple chiplets over <strong>UCIe</strong>, presenting a single coherence domain</li>
+            <li><strong>CXL 3.0</strong> — type 1/2/3 devices, <strong>multi-host</strong>, switchable fabric</li>
+            <li><strong>CCA / Realms</strong> — Granule Protection Checks happen at HN-F</li>
+            <li>Higher HN-F radix; better SLC access latency at large mesh sizes</li>
+          </ul>
+        </li>
+        <li>Target silicon: AWS Graviton 5 (reported), Microsoft Cobalt 200, multi-chiplet HPC/AI servers.</li>
+      </ul>
+    </div>
+    <div>
+      <div class="card amber">
+        <h3>Chiplet coherence</h3>
+        <p>CMN S3 treats UCIe links like internal mesh links. A read from a core on chiplet A to a cache line owned by an RN-F on chiplet B looks identical to on-die traffic — same REQ/SNP/RSP/DAT flow, just traverses UCIe.</p>
+      </div>
+      <div class="card blue" style="margin-top:0.4em;">
+        <h3 class="b">GPC at HN-F</h3>
+        <p>Every read/write to physical memory goes through a Granule Protection Check against the GPT (Granule Protection Table). HN-F is the natural enforcement point — it's the last stop before DRAM.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">10</span><h2>CMN Generations Side-by-Side</h2></div>
+  <table>
+    <tr><th>Gen</th><th>Year</th><th>Max mesh</th><th>CHI version</th><th>PCIe / CXL / CCIX</th><th>Shipping in</th></tr>
+    <tr><td><span class="a">CMN-600</span></td><td>2018</td><td>8×8 (64 tiles)</td><td>CHI-A</td><td>PCIe 4.0, no CXL</td><td>Graviton 2, Altra, Kunpeng 920</td></tr>
+    <tr><td><span class="a">CMN-650</span></td><td>2020</td><td>8×8</td><td>CHI-B</td><td>CCIX 1.1, CXL 1.1 (hooks)</td><td>Older Altra derivatives</td></tr>
+    <tr><td><span class="a">CMN-700</span></td><td>2021</td><td>12×12 (144)</td><td>CHI-E</td><td>CXL 2.0, PCIe 5.0</td><td>Graviton 3/4, Cobalt 100, Grace</td></tr>
+    <tr><td><span class="a">CMN S3</span></td><td>2024</td><td>Multi-chiplet</td><td>CHI-E2</td><td>CXL 3.0, PCIe 6.0, UCIe</td><td>Cobalt 200 (reported), Graviton 5</td></tr>
+  </table>
+  <p class="small">The trend: more tiles per mesh, higher-frequency links, and cleaner integration with CXL (for memory pooling) and UCIe (for chiplets). Every CHI generation is a strict superset of the prior one.</p>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">11</span><h2>Memory Controllers &amp; SN-F Nodes</h2></div>
+  <div class="cols cols-2">
+    <div>
+      <ul>
+        <li>Each memory channel has an <strong>SN-F</strong> node on the mesh.</li>
+        <li>SN-F nodes map to Arm memory-controller IP:
+          <ul>
+            <li><span class="mono">DMC-520</span> — LPDDR4 / DDR4, 32-bit</li>
+            <li><span class="mono">DMC-620</span> — DDR4, 64-bit, CMN-600 era</li>
+            <li><span class="mono">DMC-750</span> — DDR5 + RDIMM/LRDIMM, CMN-700 era</li>
+            <li><span class="mono">DMC-1000</span> (2024) — DDR5-6400, CXL 2.0, ECC-chipkill</li>
+          </ul>
+        </li>
+        <li>Additional SN-F variants implement <strong>HBM</strong> (Grace + 480 GB LPDDR5X is an exception), <strong>CXL.mem</strong> (pooled memory), and <strong>Flash/NVDIMM</strong>.</li>
+        <li>Memory scrubbing happens at SN-F — patrol + on-demand scrubbers catch soft-error rates typical of large-DRAM server deployments.</li>
+      </ul>
+    </div>
+    <div>
+      <div class="card amber">
+        <h3>Hash → channel placement</h3>
+        <p>For a flat memory view, the address → HN-F → SN-F hash must be <em>channel-aware</em>: if HN-F 0x0 maps to SN-F on channel 0, sequential cache-line accesses should spread across all SN-Fs to max bandwidth. Software doesn't see this — pure hardware.</p>
+      </div>
+      <div class="card green" style="margin-top:0.4em;">
+        <h3 class="g">8-12 channels standard</h3>
+        <p>Neoverse servers use 8-12 DDR5 channels per socket. Aggregated bandwidth: 300-600 GB/s per socket, enough to keep 128 cores memory-fed for most cloud workloads.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">12</span><h2>I/O Sub-system — RN-I, SMMU, PCIe</h2></div>
+  <div class="cols cols-2">
+    <div>
+      <ul>
+        <li>An <strong>RN-I</strong> (I/O Request Node) sits on the mesh for every I/O domain. It bridges non-coherent AXI/CXL/PCIe traffic into coherent CHI.</li>
+        <li>Each RN-I is preceded by an <strong>SMMU-v3</strong> that:
+          <ul>
+            <li>Translates I/O virtual addresses → PA (stage 1)</li>
+            <li>Enforces VM isolation (stage 2)</li>
+            <li>Checks PCIe <span class="mono">STE</span>/<span class="mono">CD</span> entries</li>
+            <li>Supports PCIe <strong>ATS</strong> + <strong>PRI</strong> (Address Translation Service, Page Request Interface)</li>
+          </ul>
+        </li>
+        <li>PCIe Gen 5 / 6 controllers typically integrated on the mesh edge with dedicated RN-I nodes.</li>
+        <li>CXL devices can present as RN-F (type-1 accelerator, with its own cache) or SN-F (type-3 memory expander).</li>
+      </ul>
+    </div>
+    <div>
+      <svg viewBox="0 0 340 220" style="width:100%;">
+        <rect x="10" y="10" width="320" height="200" rx="10" fill="#10101a" stroke="#f5a623"/>
+        <text x="170" y="32" text-anchor="middle" fill="#f5a623" font-family="Playfair Display" font-weight="700" font-size="13">I/O path on CMN</text>
+        <rect x="30" y="55" width="280" height="35" rx="4" fill="#2a1a0a" stroke="#f5a623"/>
+        <text x="170" y="78" text-anchor="middle" fill="#f5a623" font-family="JetBrains Mono" font-size="10">PCIe 5 / 6 controller</text>
+        <rect x="30" y="100" width="280" height="35" rx="4" fill="#1a2540" stroke="#60a5fa"/>
+        <text x="170" y="123" text-anchor="middle" fill="#60a5fa" font-family="JetBrains Mono" font-size="10">SMMU-700 (stage 1 + 2, ATS, PRI)</text>
+        <rect x="30" y="145" width="280" height="35" rx="4" fill="#1f3a1f" stroke="#4ecb8d"/>
+        <text x="170" y="168" text-anchor="middle" fill="#4ecb8d" font-family="JetBrains Mono" font-size="10">RN-I — on CMN mesh</text>
+        <rect x="30" y="185" width="280" height="20" rx="3" fill="#0e0e18" stroke="#555"/>
+        <text x="170" y="200" text-anchor="middle" fill="#cdd6f4" font-family="JetBrains Mono" font-size="9">coherent CHI to HN-F / SLC</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">13</span><h2>Performance Features of CMN</h2></div>
+  <div class="cols cols-2">
+    <div>
+      <ul>
+        <li><strong>SLC Cache Stashing</strong> — NIC/NVMe can stash packet data into the LLC before the CPU reads it.</li>
+        <li><strong>QoS classes</strong> — 16 QoS levels per REQ; MPAM-mapped.</li>
+        <li><strong>Dynamic snoop filter expansion</strong> — HN-Fs can switch between inclusive / partial-inclusive snoop filtering based on workload pressure.</li>
+        <li><strong>Ordering domains</strong> — REQ ordering can be relaxed per address space for bandwidth (used for accelerator + GPU traffic).</li>
+        <li><strong>Flow-control credits per VC</strong> — prevents head-of-line blocking between REQ/SNP/DAT.</li>
+        <li><strong>Error containment</strong> — RAS framework routes poison to the node best placed to handle it (usually HN-F or memory controller).</li>
+      </ul>
+    </div>
+    <div>
+      <div class="card amber">
+        <h3>Arm PMU on the mesh</h3>
+        <p>Each CMN node exposes its own PMU. Total ~500 events across a large mesh. Linux tools (<span class="mono">arm_cmn</span> driver + perf) expose them as <span class="mono">arm_cmn_0/hnf_cache_miss/</span> etc. Essential for diagnosing LLC / memory-bandwidth issues at socket level.</p>
+      </div>
+      <div class="card blue" style="margin-top:0.4em;">
+        <h3 class="b">QoS in practice</h3>
+        <p>Cloud tenants tagged "gold" get QoS 0-3 (highest priority); best-effort jobs get QoS 12-15. At high mesh pressure, low-QoS traffic queues; high-QoS cuts through.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">14</span><h2>CMN vs Intel Mesh vs AMD Infinity Fabric</h2></div>
+  <table>
+    <tr><th>Property</th><th>Arm CMN-700 / S3</th><th>Intel Mesh (Sapphire/Granite)</th><th>AMD Infinity Fabric 4</th></tr>
+    <tr><td>Topology</td><td>2D mesh of tiles</td><td>2D mesh of tiles</td><td>Hub-and-spoke + IFOP across chiplets</td></tr>
+    <tr><td>Coherence</td><td>AMBA 5 CHI, directory at HN-F</td><td>MESIF, distributed LLC slice</td><td>MOESI with probe filter at IOD</td></tr>
+    <tr><td>LLC</td><td>Distributed SLC (128-512 MB)</td><td>Distributed LLC (60-120 MB)</td><td>IO-die-attached L3+stacked (V-cache 96-192 MB)</td></tr>
+    <tr><td>Snoop filter</td><td>Tag-directory at HN-F</td><td>Full directory at mesh nodes</td><td>Probe filter on I/O die</td></tr>
+    <tr><td>Cross-chiplet</td><td>UCIe (CMN S3) / custom C2C</td><td>EMIB + chip-to-chip interposers</td><td>Infinity Fabric serial links</td></tr>
+    <tr><td>External coh</td><td>CCIX, CXL 2/3</td><td>CXL 1.1 / 2.0</td><td>CXL 1.1 / 2.0</td></tr>
+  </table>
+  <p class="small">All three converged on mesh + directory coherence for 64+ cores. Biggest differentiator for Arm: standardised <strong>CHI protocol</strong>, which means IP from Arm, Synopsys, and customers interoperate at RTL level.</p>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">15</span><h2>Lessons for the Interview</h2></div>
+  <div class="cols cols-2">
+    <div>
+      <ul>
+        <li><strong class="a">"Why is HN-F the key node?"</strong> → owns the snoop-filter directory + a slice of SLC. Every coherent read/write to its address range goes there. Scales to &gt;128 cores because snoops are <em>targeted</em>, not broadcast.</li>
+        <li><strong class="a">"Explain DMT vs DCT"</strong> → DMT = HN-F tells SN-F to forward DRAM data directly to requester (skip HN-F buffer). DCT = HN-F tells another RN-F to forward cached data directly. Both cut L3-miss latency by ~20 cycles.</li>
+      </ul>
+    </div>
+    <div>
+      <ul>
+        <li><strong class="g">"How does CXL.mem integrate?"</strong> → external memory expanders appear as SN-F nodes. HN-Fs own the CXL address ranges and enforce coherence. Software sees a normal RAM region with slightly higher latency.</li>
+        <li><strong class="g">"What's MPAM?"</strong> → partition ID (PartID) tagged on every transaction; HN-F enforces cache-way + bandwidth limits per PartID. Used for cloud multi-tenancy QoS.</li>
+        <li><strong class="g">"Why CHI and not AXI?"</strong> → AXI-ACE topped out at ~16 coherent nodes because snoops were broadcast. CHI is a packet-switched protocol that scales with the mesh.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">16</span><h2>References</h2></div>
+  <div style="max-width:90%;margin:0 auto;font-size:0.58em;line-height:1.8;">
+    <p>
+      <strong class="a">Arm Ltd.</strong> — <em>CMN-600 / 650 / 700 Technical Reference Manuals</em> — node types, mesh, CHI programmer's view<br>
+      <strong class="a">Arm Ltd.</strong> — <em>AMBA 5 CHI Architecture Specification</em> (Issue E / E2) — the complete CHI protocol<br>
+      <strong class="a">Arm Ltd.</strong> — <em>MPAM system architecture</em> (DDI 0598)<br>
+      <strong class="a">Arm Ltd.</strong> — <em>Neoverse CSS N2 / V2 / V3 reference designs</em> (2023-24)<br>
+      <strong class="a">AWS</strong> — Graviton 2/3/4 whitepapers with CMN topology + SLC sizing<br>
+      <strong class="a">Hot Chips</strong> — annual Neoverse interconnect papers<br>
+      <strong class="a">Chipsandcheese.com</strong> — measurement-based CMN latency + bandwidth deep-dives<br>
+      <strong class="a">Linux kernel</strong> — <span class="mono">drivers/perf/arm-cmn.c</span> — CMN PMU driver with full node / event catalogue
+    </p>
+    <p style="color:var(--muted);margin-top:0.8em;font-size:0.85em">
+      Presentation built with <a href="https://revealjs.com">Reveal.js 4.6</a> · Playfair Display + DM Sans + JetBrains Mono<br>
+      Educational use.
+    </p>
+  </div>
+</section>
+
+</div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/plugin/highlight/highlight.min.js"></script>
+<script>
+Reveal.initialize({ hash: true, slideNumber: 'c/t', transition: 'fade', transitionSpeed: 'fast', controls: true, progress: true, center: false, width: 1100, height: 900, margin: 0.01, plugins: [RevealHighlight], highlight: { theme: 'monokai' } });
+</script>
+<script>
+(function(){ var h = Reveal.getConfig().height || 900; var m = Reveal.getConfig().margin || 0.02; var maxH = Math.floor(h * (1 - 2 * m)) + 'px'; function fixSlides(){ document.querySelectorAll('.reveal .slides>section,.reveal .slides>section>section').forEach(function(s){ s.style.display = 'block'; s.style.maxHeight = maxH; }); } Reveal.on('ready', fixSlides); Reveal.on('slidechanged', fixSlides); })();
+</script>
+</body>
+</html>

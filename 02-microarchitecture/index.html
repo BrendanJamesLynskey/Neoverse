@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neoverse Microarchitecture &amp; Core Details</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/theme/black.min.css">
+<style>
+  :root { --amber:#f5a623;--green:#4ecb8d;--purple:#a78bfa;--blue:#60a5fa;--red:#f87171; --bg:#0a0a0f;--bg2:#10101a;--bg3:#181824;--border:#2a2a3a;--text:#e8e8f0;--muted:#8888a8; }
+  .reveal-viewport { background: var(--bg); }
+  .reveal .slides section { background: transparent; }
+  .reveal section { text-align: left; }
+  .reveal .slides > section { padding: 0.5em; overflow-y: auto !important; align-items: flex-start !important; justify-content: flex-start !important; }
+  .reveal .progress { color: var(--amber); height: 3px; } .reveal .controls { color: var(--amber); }
+  .reveal section::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--amber), var(--green)); }
+  .reveal { font-family: 'DM Sans', sans-serif; color: var(--text); font-size: 22px; }
+  .reveal .slide-number { font-family: 'JetBrains Mono', monospace; font-size: 0.7em; color: var(--muted); }
+  .reveal h1, .reveal h2, .reveal h3 { font-family: 'Playfair Display', serif; color: #fff; text-transform: none; letter-spacing: -0.01em; }
+  .reveal h1 { font-size: 2.4em; font-weight: 900; color: var(--amber); line-height: 1.1; }
+  .reveal h2 { font-size: 1.7em; font-weight: 700; color: var(--amber); margin-bottom: 0.6em; }
+  .reveal h3 { font-size: 1.2em; font-weight: 700; color: var(--green); margin-bottom: 0.3em; }
+  .reveal p  { font-size: 0.75em; line-height: 1.5; color: var(--text); }
+  .reveal li { font-size: 0.7em; line-height: 1.5; margin-bottom: 0.25em; }
+  .reveal code { font-family: 'JetBrains Mono', monospace; font-size: .72em; }
+  .reveal pre  { background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 0.5em 1em; margin: 0.4em 0; width: 100%; box-shadow: none; }
+  .reveal pre code { font-size: 0.58em; line-height: 1.5; background: transparent; color: #cdd6f4; }
+  .slide-hdr { display: flex; align-items: center; gap: .4em; border-bottom: 1px solid var(--border); padding-bottom: .2em; margin-bottom: .3em; }
+  .slide-hdr .tag { font-family: 'JetBrains Mono', monospace; font-size: 0.55em; font-weight: 600; color: var(--bg); background: var(--amber); padding: .1em .4em; border-radius: 3px; letter-spacing: .04em; }
+  .slide-hdr h2 { margin: 0; font-size: 1.4em; }
+  .cols{display:grid;gap:1em;} .cols-2{grid-template-columns:1fr 1fr;} .cols-3{grid-template-columns:1fr 1fr 1fr;} .cols-6040{grid-template-columns:6fr 4fr;} .cols-4060{grid-template-columns:4fr 6fr;}
+  .card { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 1em 1.2em; box-shadow: 0 4px 20px rgba(0,0,0,0.3); margin: 0.4em 0; }
+  .card.amber { border-left: 3px solid var(--amber); } .card.green { border-left: 3px solid var(--green); } .card.purple{ border-left: 3px solid var(--purple); } .card.blue  { border-left: 3px solid var(--blue); } .card.red   { border-left: 3px solid var(--red); }
+  .card h3 { font-size: 1em; margin: 0 0 0.4em; }
+  .card p, .card ul { font-size: 0.8em; margin: 0; color: #b8b8d0; } .card ul { padding-left: 1.2em; } .card li { font-size: 0.85em; margin-bottom: 0.25em; }
+  .reveal table { width: 100%; border-collapse: collapse; font-size: 0.65em; margin: 0.5em 0; }
+  .reveal table th { background: var(--bg3); color: var(--amber); padding: 0.5em 0.7em; border: 1px solid var(--border); text-align: left; font-weight: 700; }
+  .reveal table td { padding: 0.5em 0.7em; border: 1px solid var(--border); color: #ccc; vertical-align: top; }
+  .reveal table tr:nth-child(even) td { background: #0e0e18; }
+  .a{color:var(--amber);font-weight:600;} .g{color:var(--green);font-weight:600;} .p{color:var(--purple);font-weight:600;} .b{color:var(--blue);font-weight:600;} .r{color:var(--red);font-weight:600;} .mono{font-family:'JetBrains Mono',monospace;}
+  svg.diagram { display: block; margin: 0 auto; overflow: visible; }
+  .title-slide h1 { font-size: 2.4em; } .title-slide .subtitle { font-size: 0.85em; color: var(--green); font-weight: 400; letter-spacing: 0.06em; margin: 0.3em 0 0.6em; } .title-slide .meta { font-size: 0.6em; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+  .dim { color: var(--muted); } .small { font-size: 0.65em; } .smaller { font-size: 0.55em; } .tiny { font-size: 0.48em; }
+  .reveal ul, .reveal ol { margin: .15em 0 .15em 1em; }
+</style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<section class="title-slide" data-background-color="#0a0a0f">
+  <div style="font-family:'JetBrains Mono',monospace;font-size:.5em;color:var(--muted);margin-bottom:.4em;letter-spacing:.1em;">ARM NEOVERSE · PRESENTATION 02</div>
+  <h1>Microarchitecture &amp; Core Details</h1>
+  <div class="subtitle">What Neoverse cores add on top of Cortex-X/-A · N vs V vs E</div>
+  <div style="width:60px;height:3px;background:var(--amber);margin-bottom:1.4em;"></div>
+  <div class="meta">N1 · V1 · N2 · V2 · N3 · V3 · SMT2 · RAS · MPAM · ROBs · Prefetch · LSE on mesh</div>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">02</span><h2>What Changes When Cortex Goes Server</h2></div>
+  <div class="cols cols-2">
+    <div>
+      <ul>
+        <li><strong class="a">RAS everywhere</strong> — ECC on L1/L2/L3, poison handling, containable aborts, SDEI for fatal-error signalling.</li>
+        <li><strong class="a">Larger TLBs + TLB hierarchy</strong> — servers touch much larger working sets; N2 has ~2-3× the L2 TLB of Cortex-A710.</li>
+        <li><strong class="a">Server-tuned prefetchers</strong> — favour large strides, DRAM-bandwidth-aware throttling.</li>
+        <li><strong class="a">CHI-B (N2+) egress</strong> — not DSU: each core sits on a CMN mesh tile directly.</li>
+        <li><strong class="a">MPAM v1</strong> — allocate cache ways + memory bandwidth per partition ID. Mandatory for multi-tenant cloud.</li>
+        <li><strong class="a">Clock/voltage optimised for 2.5-3.3 GHz sustained</strong> — not 3.5+ GHz burst. Better perf/W at scale.</li>
+      </ul>
+    </div>
+    <div>
+      <div class="card amber">
+        <h3>Why not just use Cortex-A?</h3>
+        <p>A phone Cortex-X runs at 3.5 GHz for 200 ms and thermally throttles. A server Neoverse runs at 3.0 GHz continuously for <strong>5 years</strong>. That requires very different silicon validation, leakage budgets, and RAS coverage — worth a separate product line.</p>
+      </div>
+      <div class="card green" style="margin-top:0.4em;">
+        <h3 class="g">Area ≠ wasted</h3>
+        <p>Extra TLB + RAS + MPAM makes Neoverse ~15-20% larger than its Cortex-X cousin. At datacentre scale, that area is recovered 10× by better availability.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">03</span><h2>Neoverse N1 — Under the Hood</h2></div>
+  <table>
+    <tr><th>Parameter</th><th>Value</th></tr>
+    <tr><td>Architecture</td><td>Armv8.2-A (no SVE)</td></tr>
+    <tr><td>Decode / Dispatch</td><td>4-wide / 4-wide</td></tr>
+    <tr><td>Issue width</td><td>8 (2 ALU + MAC, 2 load/store, 2 FP/SIMD, 1 branch, 1 DIV)</td></tr>
+    <tr><td>Pipeline depth</td><td>~11 stages (front) + variable back</td></tr>
+    <tr><td>ROB / renamed regs</td><td>~128 / ~200 int, ~150 FP</td></tr>
+    <tr><td>L1-I / L1-D</td><td>64 KB / 64 KB, 4-way</td></tr>
+    <tr><td>L2 (private)</td><td>256 KB – 1 MB, 8-way</td></tr>
+    <tr><td>L3 / SLC</td><td>via CMN-600, 1-2 MB/core</td></tr>
+    <tr><td>SIMD</td><td>NEON 2 × 128-bit pipes</td></tr>
+    <tr><td>SMT</td><td>— (single-thread only)</td></tr>
+    <tr><td>Target clock</td><td>2.5 – 3.0 GHz</td></tr>
+    <tr><td>Process</td><td>7 nm TSMC (Graviton 2)</td></tr>
+  </table>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">04</span><h2>Neoverse V1 — the Wide / SVE Core</h2></div>
+  <div class="cols cols-2">
+    <div>
+      <ul>
+        <li>Based on <strong>Cortex-X1</strong>. 5-wide decode, 8-wide issue, deeper OoO.</li>
+        <li><strong>SVE: 2 × 256-bit</strong> FP/int pipes (twice the vector throughput of a 2 × 128-bit Neoverse V2). Best for dense FP kernels.</li>
+        <li><strong>SMT2</strong> — two hardware threads per core. First Arm IP core with SMT.</li>
+        <li>Larger ROB (~320 entries), richer prefetcher.</li>
+        <li>Private L2 up to 2 MB, 8-way.</li>
+        <li><strong>bf16 / INT8 dot-product / matmul</strong> — v8.6-A extensions targeting ML.</li>
+        <li>First silicon: <strong>AWS Graviton 3</strong> (Nov 2021) — 64 cores, 7-chiplet design, DDR5-4800, PCIe Gen 5.</li>
+      </ul>
+    </div>
+    <div>
+      <div class="card purple">
+        <h3 class="p">SVE 256-bit vs 4×128</h3>
+        <p>Same total FLOPs, but 2 × 256-bit is better for 256-bit-wide loads / stores and HPC kernels that naturally fit 256-bit. 4 × 128-bit gives more dispatch flexibility for cloud DB workloads. V1 chose wide-and-few; V2 chose narrow-and-many.</p>
+      </div>
+      <div class="card blue" style="margin-top:0.4em;">
+        <h3 class="b">Graviton 3's chiplet trick</h3>
+        <p>7 compute chiplets × ~9 cores + 1 I/O die, connected on an Amazon-designed organic interposer. Similar idea to AMD's Epyc. Cost advantage — yield better on 7 smaller dies than 1 huge die.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">05</span><h2>Neoverse N2 — the Armv9 Workhorse</h2></div>
+  <div class="cols cols-2">
+    <div>
+      <ul>
+        <li>Based on Cortex-A710 (mobile flagship, v9-A). 5-wide decode, 8-wide issue, 4 × 128-bit SVE2.</li>
+        <li><strong>Mandatory SVE2</strong> — first Neoverse with vector-length-agnostic ops.</li>
+        <li>Armv9-A features: <strong>RME / CCA</strong> (confidential compute), BTI, MTE.</li>
+        <li>Private L2 up to 1 MB. CHI-B mesh egress.</li>
+        <li>MPAM v1, SPE (statistical profiling), ETE/TRBE (embedded trace).</li>
+        <li>Sweet spot: <strong>64-128 cores per socket at 2.7-3.2 GHz</strong>, DDR5 / LPDDR5X, CXL 2.0.</li>
+        <li>Canonical silicon: <strong>Microsoft Cobalt 100</strong> (128 cores, Azure), <strong>Alibaba Yitian 710</strong> (128 cores, 2021 early adopter), <strong>AWS Graviton 4</strong> (96 × N2 + some V2 variants).</li>
+      </ul>
+    </div>
+    <div>
+      <table>
+        <tr><th>Feature</th><th>N1</th><th>N2</th></tr>
+        <tr><td>Arch</td><td>v8.2-A</td><td>v9.0-A</td></tr>
+        <tr><td>SIMD</td><td>NEON 2×128</td><td>SVE2 4×128</td></tr>
+        <tr><td>BTI / MTE</td><td>No</td><td>Yes</td></tr>
+        <tr><td>RME / CCA</td><td>No</td><td>Yes</td></tr>
+        <tr><td>MPAM</td><td>-</td><td>v1 mandatory</td></tr>
+        <tr><td>Mesh</td><td>CMN-600</td><td>CMN-700</td></tr>
+        <tr><td>Peak SPECint/core</td><td>~20</td><td>~30</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">06</span><h2>Neoverse V2 — Grace Inside</h2></div>
+  <div class="cols cols-2">
+    <div>
+      <ul>
+        <li>Based on <strong>Cortex-X3</strong>. 6-wide decode. Biggest IPC jump in Neoverse history at the time (~35% SPECint over V1).</li>
+        <li>SIMD: <strong>4 × 128-bit SVE2</strong> (not 2 × 256 like V1) — better for dispatch-limited code, matches V1 in total FLOPs.</li>
+        <li>SMT2 retained.</li>
+        <li>Larger ROB (~384 entries), refined TAGE predictor.</li>
+        <li>Private L2 up to 2 MB, 8-way.</li>
+        <li><strong>Canonical silicon: NVIDIA Grace CPU</strong> — 72 × V2 cores per chiplet, <strong>480 GB LPDDR5X on-package</strong>, <strong>NVLink-C2C</strong> to Hopper/Blackwell GPU at 900 GB/s coherent.</li>
+      </ul>
+    </div>
+    <div>
+      <div class="card amber">
+        <h3>Grace + Hopper</h3>
+        <p>The CPU-GPU &quot;superchip&quot; pairs V2 Grace CPU with Hopper/Blackwell GPU in one board. NVLink-C2C makes GPU see CPU LPDDR5X coherently — no PCIe. Opens door to ML models that spill to host memory transparently.</p>
+      </div>
+      <div class="card blue" style="margin-top:0.4em;">
+        <h3 class="b">HPC scaling</h3>
+        <p>Grace in pure CPU mode (72+72 = 144 cores, 960 GB LPDDR5X) targets AI training storage nodes and in-memory databases. Shipping in HPE Slingshot, Eviden BullSequana, several European HPC centres.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">07</span><h2>Neoverse N3 / V3 — 2024 Refresh</h2></div>
+  <div class="cols cols-2">
+    <div>
+      <ul>
+        <li><strong>N3</strong> — successor to N2. ~20% IPC gain, ~25% energy reduction.
+          <ul>
+            <li>Ported A720-class core</li>
+            <li>Improved BF16/INT8 matmul path — &quot;CPU AI inference&quot; story</li>
+            <li>4 × 128-bit SVE2 retained</li>
+          </ul>
+        </li>
+        <li><strong>V3</strong> — successor to V2. ~35% SPECint gain, bigger per-core resources.
+          <ul>
+            <li>X4-class front-end, ~384-entry ROB, wider dispatch</li>
+            <li>New &quot;data-dependent prefetcher&quot; — latency-hiding for pointer-chasing workloads (DB B-trees)</li>
+            <li>CCA hardware acceleration — near-zero overhead for Realms</li>
+          </ul>
+        </li>
+        <li>Delivered as <strong>CSS N3 / CSS V3</strong> — pre-integrated with CMN S3 mesh + GIC-700 + SMMU-700.</li>
+      </ul>
+    </div>
+    <div>
+      <div class="card green">
+        <h3 class="g">CPU AI inference</h3>
+        <p>N3's bf16/INT8 matmul (BFMMLA, SMMLA) gives ~2-3× LLM-token/sec compared to N2 at similar power. The pitch: avoid a separate NPU for small-model inference, keep everything on the CPU.</p>
+      </div>
+      <div class="card purple" style="margin-top:0.4em;">
+        <h3 class="p">V3's prefetcher</h3>
+        <p>Picks up pointer-chase patterns (linked list, B-tree traversal). Not just stride-based. Arm reports ~15% Postgres and Memcached improvements from this feature alone.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">08</span><h2>SMT2 in Detail</h2></div>
+  <div class="cols cols-2">
+    <div>
+      <ul>
+        <li>V1 and V2 (and V3) implement <strong>SMT2</strong> — two hardware threads per physical core.</li>
+        <li>Each thread has its own:
+          <ul>
+            <li>Architectural register file</li>
+            <li>Rename map</li>
+            <li>RSB</li>
+            <li>PMU counters</li>
+          </ul>
+        </li>
+        <li>Shared:
+          <ul>
+            <li>Execution units</li>
+            <li>L1/L2 caches</li>
+            <li>Branch predictor tables</li>
+            <li>TLBs</li>
+          </ul>
+        </li>
+        <li>Each thread presents as a separate <strong>PE</strong> to the OS, with its own MPIDR Aff0.</li>
+      </ul>
+    </div>
+    <div>
+      <div class="card amber">
+        <h3>When SMT helps</h3>
+        <p>Memory-bound, latency-tolerant workloads — DB joins, in-memory KV, nginx request handling. One thread stalls on L3 miss while the other keeps the EUs busy. Typical gains: <strong>15-30%</strong> throughput at ~5% per-thread latency cost.</p>
+      </div>
+      <div class="card red" style="margin-top:0.4em;">
+        <h3 class="r">When SMT hurts</h3>
+        <p>Branch-heavy single-thread workloads (compression, ray tracing) — two threads thrash branch-predictor tables. HPC codes that fit comfortably in L1/L2 see cache-thrashing losses. Often configured off for pure HPC.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">09</span><h2>RAS — Reliability, Availability, Serviceability</h2></div>
+  <div class="cols cols-2">
+    <div>
+      <ul>
+        <li>Servers run 24/7 for years. RAS features turn "crash" into "detected, contained, reported."</li>
+        <li>Arm RAS architecture (v8.2-A onward) defines a standard framework:
+          <ul>
+            <li>Error records per PE (<span class="mono">ERXADDR_EL1</span>, <span class="mono">ERXSTATUS_EL1</span>)</li>
+            <li>Severity levels: UEC (uncorrected, contained), UER (recoverable), UEO (outer), DE (deferred)</li>
+            <li>SError + SDEI signalling to EL3 / EL2 / EL1</li>
+            <li>Poison propagation: bad cache line carries a 1-bit "poison" until consumed</li>
+          </ul>
+        </li>
+        <li>Neoverse cores implement ECC on:
+          <ul>
+            <li>L1 D-cache, L2, L3 tags + data</li>
+            <li>TLB entries</li>
+            <li>RF (parity on register file)</li>
+          </ul>
+        </li>
+        <li><strong>Memory scrubbing</strong> at CMN / memory controller level.</li>
+      </ul>
+    </div>
+    <div>
+      <div class="card green">
+        <h3 class="g">Poison — the real trick</h3>
+        <p>When a cache line takes an uncorrectable error, the CPU doesn't kill the system. It marks the line as <em>poisoned</em>. The OS/firmware only needs to deal with it when (and if) a process actually reads from that exact line.</p>
+      </div>
+      <div class="card blue" style="margin-top:0.4em;">
+        <h3 class="b">SDEI</h3>
+        <p>Software Delegated Exception Interface — an EL3 firmware service that forwards RAS events to EL2/EL1 asynchronously. Lets Linux log + quarantine a faulty page without taking the whole kernel down.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">10</span><h2>MPAM — Memory Partitioning &amp; Monitoring</h2></div>
+  <div class="cols cols-2">
+    <div>
+      <ul>
+        <li>Armv8.4-A optional, mandatory from Neoverse N2.</li>
+        <li>Each memory access is tagged with a <strong>PartID</strong> (partition ID) + <strong>PMG</strong> (monitoring group ID).</li>
+        <li>At each MPAM-aware point (L2, L3, CMN, memory controller), resources are partitioned by PartID:
+          <ul>
+            <li>Cache way/capacity allocation (cache-set like Intel CAT)</li>
+            <li>Bandwidth quotas (min / max BW per partition)</li>
+            <li>Monitoring counters for observed use</li>
+          </ul>
+        </li>
+        <li>OS (Linux resctrl) or hypervisor assigns PartIDs per process / VM.</li>
+        <li>The enabler for <strong>multi-tenant cloud</strong> QoS — noisy-neighbour workloads can be capped.</li>
+      </ul>
+    </div>
+    <div>
+      <pre><code class="nohighlight">// Linux MPAM (resctrl mount)
+// Create a partition for tenant A
+mount -t resctrl resctrl /sys/fs/resctrl
+
+mkdir /sys/fs/resctrl/tenantA
+
+echo "L3:0=00ff00;MB:0=50" \
+     &gt; /sys/fs/resctrl/tenantA/schemata
+
+// L3 mask = 00ff00 → 8 ways allocated
+// MB     = 50     → 50% of memory bw
+// CPUs 4-7 belong to this partition
+echo "4-7" &gt; /sys/fs/resctrl/tenantA/cpus
+</code></pre>
+      <p class="small dim">MPAM was designed to match Intel CAT/CDP/MBA — same hyperscaler-friendly partition model, Arm-architectural instead of Intel-proprietary.</p>
+    </div>
+  </div>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">11</span><h2>Neoverse Comparison Table</h2></div>
+  <table>
+    <tr><th>Param</th><th>N1</th><th>V1</th><th>E1</th><th>N2</th><th>V2</th><th>N3</th><th>V3</th></tr>
+    <tr><td>Year</td><td>2019</td><td>2021</td><td>2020</td><td>2021</td><td>2022</td><td>2024</td><td>2024</td></tr>
+    <tr><td>Arch</td><td>v8.2</td><td>v8.4</td><td>v8.2</td><td>v9.0</td><td>v9.0</td><td>v9.2</td><td>v9.2</td></tr>
+    <tr><td>Decode</td><td>4</td><td>5</td><td>2</td><td>5</td><td>6</td><td>5</td><td>10</td></tr>
+    <tr><td>Issue</td><td>8</td><td>8</td><td>3</td><td>8</td><td>8</td><td>8</td><td>10+</td></tr>
+    <tr><td>SIMD</td><td>NEON</td><td>2×256 SVE</td><td>NEON</td><td>4×128 SVE2</td><td>4×128 SVE2</td><td>4×128 SVE2</td><td>4×128 SVE2</td></tr>
+    <tr><td>SMT</td><td>-</td><td>2</td><td>2</td><td>-</td><td>2</td><td>-</td><td>2</td></tr>
+    <tr><td>Private L2</td><td>1 MB</td><td>2 MB</td><td>128 KB</td><td>1 MB</td><td>2 MB</td><td>1-2 MB</td><td>2-3 MB</td></tr>
+    <tr><td>Max cores / socket</td><td>80-128</td><td>64</td><td>-</td><td>128</td><td>72-144</td><td>192+</td><td>96</td></tr>
+    <tr><td>Mesh</td><td>CMN-600</td><td>CMN-650/700</td><td>CMN-600</td><td>CMN-700</td><td>CMN-700</td><td>CMN S3</td><td>CMN S3</td></tr>
+  </table>
+  <p class="small">&quot;E1 decode=2&quot; reflects its in-order dual-issue design. Not shown: custom cores (Ampere AmpereOne A192 uses 192 in-house cores; Apple Silicon is outside the Neoverse family entirely).</p>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">12</span><h2>Cache Hierarchy on a Neoverse Socket</h2></div>
+  <div class="cols cols-2">
+    <div>
+      <svg viewBox="0 0 340 280" style="width:100%;">
+        <rect x="10" y="10" width="320" height="260" rx="10" fill="#10101a" stroke="#f5a623"/>
+        <text x="170" y="32" text-anchor="middle" fill="#f5a623" font-family="Playfair Display" font-weight="700" font-size="13">Neoverse N2 / V2 socket</text>
+
+        <rect x="30" y="50" width="80" height="30" rx="3" fill="#2a1a0a" stroke="#f5a623"/>
+        <text x="70" y="70" text-anchor="middle" fill="#f5a623" font-family="JetBrains Mono" font-size="9">L1-I 64 KB</text>
+
+        <rect x="120" y="50" width="80" height="30" rx="3" fill="#2a1a0a" stroke="#f5a623"/>
+        <text x="160" y="70" text-anchor="middle" fill="#f5a623" font-family="JetBrains Mono" font-size="9">L1-D 64 KB</text>
+
+        <text x="250" y="70" fill="#8888a8" font-family="JetBrains Mono" font-size="9">per core</text>
+
+        <rect x="30" y="90" width="170" height="30" rx="3" fill="#1a2540" stroke="#60a5fa"/>
+        <text x="115" y="110" text-anchor="middle" fill="#60a5fa" font-family="JetBrains Mono" font-size="9">L2 private (1-2 MB, ECC)</text>
+
+        <rect x="30" y="130" width="285" height="40" rx="4" fill="#1f3a1f" stroke="#4ecb8d"/>
+        <text x="172" y="150" text-anchor="middle" fill="#4ecb8d" font-family="JetBrains Mono" font-size="10">CMN-700 / CMN-S3 mesh</text>
+        <text x="172" y="165" text-anchor="middle" fill="#cdd6f4" font-family="JetBrains Mono" font-size="8">SLC slice per HN-F + snoop filter</text>
+
+        <rect x="30" y="180" width="285" height="30" rx="3" fill="#2a1a2a" stroke="#a78bfa"/>
+        <text x="172" y="200" text-anchor="middle" fill="#a78bfa" font-family="JetBrains Mono" font-size="9">SLC — 128-512 MB across mesh</text>
+
+        <rect x="30" y="220" width="285" height="40" rx="3" fill="#0e0e18" stroke="#555"/>
+        <text x="172" y="243" text-anchor="middle" fill="#cdd6f4" font-family="JetBrains Mono" font-size="10">8-12 ch DDR5 / HBM3 / LPDDR5X</text>
+      </svg>
+    </div>
+    <div>
+      <ul>
+        <li><strong class="a">L1</strong> — 4-way, VIPT tag, 4-cycle hit.</li>
+        <li><strong class="b">L2</strong> — 8-way, private, 8-12 cycle hit. ECC single-bit correct, double-bit detect.</li>
+        <li><strong class="g">Mesh / SLC</strong> — distributed across HN-F home nodes. Each hop ~3-5 cycles. 48-80 cycle miss-to-DRAM latency total.</li>
+        <li><strong class="p">DRAM</strong> — 8-12 ch DDR5 4800/5600 typical, up to 12 ch DDR5-6000 on Graviton 4 and Cobalt 100. HBM3 on Grace.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">13</span><h2>LSE Atomics on a Mesh</h2></div>
+  <div class="cols cols-2">
+    <div>
+      <ul>
+        <li>LDXR/STXR exclusive-monitor atomics <em>scale poorly</em> beyond ~16 cores — multiple exclusive locks ping-pong, livelock can ensue.</li>
+        <li>LSE atomics (<span class="mono">CAS</span>, <span class="mono">LDADD</span>, <span class="mono">SWP</span>) in Neoverse are implemented as <strong>near-atomics at the HN-F</strong>: the home node for that cache line executes the RMW on behalf of the requester, without transferring the line.</li>
+        <li>This scales to <strong>128+ cores</strong> with near-zero tail latency — the hot counter / lock simply queues at the HN-F.</li>
+        <li>Linux <span class="mono">-moutline-atomics</span> flag (glibc 2.32+) compiles binaries that pick LSE at runtime.</li>
+        <li>On N1+, LSE cuts a mutex-heavy benchmark (Memcached, Redis SET heavy) by <strong>20-40%</strong> versus the LDXR/STXR equivalent.</li>
+      </ul>
+    </div>
+    <div>
+      <pre><code class="nohighlight">// LSE atomic vs legacy LDXR/STXR
+
+// Legacy — can livelock
+retry:
+    ldxr   w1, [x0]
+    add    w1, w1, #1
+    stxr   w2, w1, [x0]
+    cbnz   w2, retry
+
+// LSE (Neoverse) — single op, HN-F does it
+    ldadd  w3, w1, [x0]      // atomic fetch-add
+// round-trip: 1 REQ → HN-F, 1 RSP back
+// no need to own line in Unique state
+</code></pre>
+      <p class="small dim">The CHI protocol at the HN-F has dedicated atomic RMW opcodes; the home node's cache controller executes them without the requester ever taking the line.</p>
+    </div>
+  </div>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">14</span><h2>Clock, Voltage, Power Plans</h2></div>
+  <div class="cols cols-2">
+    <div>
+      <ul>
+        <li>Typical sustained clock: <strong>2.5 – 3.3 GHz</strong>. Cortex-X can hit 3.5+ GHz on mobile thanks to bursty workload; servers want sustained &amp; thermally stable.</li>
+        <li>Per-core DVFS domains (N1+). Idle cores drop to very low power.</li>
+        <li>Graviton 3 reports <strong>~60 W TDP for 64 cores</strong> (~1 W/core at full load). Xeon 6430 at 64 cores: ~250 W.</li>
+        <li><strong>Power-state hints</strong>:
+          <ul>
+            <li><span class="mono">WFI / WFE / WFIT / WFET</span></li>
+            <li>PSCI <span class="mono">CPU_SUSPEND</span></li>
+            <li>Per-core clock gating</li>
+            <li>L3 way power-down on idle</li>
+          </ul>
+        </li>
+        <li><strong>AMU</strong> (Activity Monitors v8.4-A) gives the OS a hardware view of "busy cycles" per core; Linux <span class="mono">cpufreq</span> uses it for better-than-nominal frequency decisions.</li>
+      </ul>
+    </div>
+    <div>
+      <div class="card green">
+        <h3 class="g">Server perf/W story</h3>
+        <p>In 2024: Graviton 4 delivers ~1.3 × SPECrate perf/W of contemporary Intel Emerald Rapids on integer cloud workloads. That's Arm's central pitch to AWS, Microsoft, Google.</p>
+      </div>
+      <div class="card blue" style="margin-top:0.4em;">
+        <h3 class="b">Density advantage</h3>
+        <p>192 × N2 cores in a single socket at 250 W = 1.3 W/core. Same socket x86 tops out at ~128 cores at 400 W = ~3.1 W/core. That is why 1U Arm servers are replacing 2U x86 servers for stateless workloads.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">15</span><h2>Performance Counters — How to Actually Measure</h2></div>
+  <div class="cols cols-2">
+    <div>
+      <ul>
+        <li>Linux <span class="mono">perf</span> + <span class="mono">perf record -e</span> work on Neoverse just like x86. Core events selected by Arm standard numbers.</li>
+        <li>Must-know events on Neoverse:
+          <ul>
+            <li><span class="mono">cpu_cycles</span>, <span class="mono">inst_retired</span></li>
+            <li><span class="mono">stall_backend_mem</span> — memory-system stalls (CMN / LLC misses)</li>
+            <li><span class="mono">stall_frontend</span> — I-cache or BP misses</li>
+            <li><span class="mono">br_mis_pred_retired</span></li>
+            <li><span class="mono">l2d_cache_refill / l3d_cache_refill</span></li>
+          </ul>
+        </li>
+        <li><strong>SPE</strong> — <span class="mono">perf record -e arm_spe//</span> records per-instruction samples with latency + attribution.</li>
+        <li><strong>AmperePerf, NVIDIA NsightCS</strong> — tooling layered on top of PMU + SPE.</li>
+      </ul>
+    </div>
+    <div>
+      <div class="card amber">
+        <h3>Topdown on Neoverse</h3>
+        <p>v8.8-A adds Intel-style &quot;Topdown&quot; PMU events. Linux <span class="mono">perf stat --topdown</span> breaks cycles into: Retiring / Bad Speculation / Frontend Bound / Backend Bound / Memory Bound — same model as Intel VTune.</p>
+      </div>
+      <div class="card purple" style="margin-top:0.4em;">
+        <h3 class="p">Arm Performance Libraries</h3>
+        <p>ArmPL, ACfL (Arm Compiler for Linux), NVIDIA HPC SDK all include FFT / BLAS tuned per Neoverse generation. Autotuning dispatches to N1 / V1 / N2 / V2 paths.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">16</span><h2>Lessons for the Interview</h2></div>
+  <div class="cols cols-2">
+    <div>
+      <ul>
+        <li><strong class="a">"Why is V1 SVE 2×256 but V2 is 4×128?"</strong> → same total FLOPs, different dispatch shape. V1 favours long-vector HPC (BLAS); V2 favours short-vector dispatch density (cloud + DB).</li>
+        <li><strong class="a">"What makes Neoverse different from Cortex-A76?"</strong> → same core plus RAS, larger TLBs, MPAM, CHI mesh egress, server-tuned prefetchers, server clock/voltage curves.</li>
+        <li><strong class="a">"Why SMT on V but not N?"</strong> → HPC + DB workloads memory-stall; SMT hides that. Cloud scale-out is already parallel across cores; SMT just causes cache pressure.</li>
+      </ul>
+    </div>
+    <div>
+      <ul>
+        <li><strong class="g">"How do LSE atomics scale better than LDXR/STXR?"</strong> → RMW executed at the home node (HN-F) in CHI; no cache line transfer to the requester. Scales to 128+ cores.</li>
+        <li><strong class="g">"What is MPAM used for?"</strong> → multi-tenant cache + bandwidth QoS. Linux resctrl-style. Cloud operators stop noisy-neighbour VMs.</li>
+        <li><strong class="g">"What is poison in RAS?"</strong> → when an ECC error is uncorrectable, the cache line carries a 1-bit flag. Process only gets SError if/when it reads that exact line. Contained, not fatal.</li>
+        <li><strong class="g">"Graviton 2 vs 3 — main differences?"</strong> → N1 → V1 (SVE + SMT2), DDR4 → DDR5, PCIe 4 → 5, chiplet packaging, ~25-30% better SPECint.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">17</span><h2>References</h2></div>
+  <div style="max-width:90%;margin:0 auto;font-size:0.58em;line-height:1.8;">
+    <p>
+      <strong class="a">Arm Ltd.</strong> — per-core Technical Reference Manuals (N1, V1, N2, V2, N3, V3)<br>
+      <strong class="a">Arm Ltd.</strong> — <em>Neoverse Performance Analysis Methodology</em> (DAI 0598)<br>
+      <strong class="a">Arm Ltd.</strong> — <em>MPAM system architecture</em> (DDI 0598, DDI 0601)<br>
+      <strong class="a">Arm Ltd.</strong> — <em>RAS system architecture (Reliability, Availability, Serviceability)</em><br>
+      <strong class="a">AWS Annapurna</strong> — Graviton 2/3/4 Hot Chips talks<br>
+      <strong class="a">NVIDIA</strong> — <em>Grace Hopper Superchip architecture</em> whitepaper (2023)<br>
+      <strong class="a">Chipsandcheese.com</strong> — microarchitecture articles on Graviton 3, Neoverse V2<br>
+      <strong class="a">Linux kernel</strong> — <span class="mono">arch/arm64/</span> + <span class="mono">Documentation/arch/arm64/</span>, <span class="mono">Documentation/arch/arm64/perf.rst</span>
+    </p>
+    <p style="color:var(--muted);margin-top:0.8em;font-size:0.85em">
+      Presentation built with <a href="https://revealjs.com">Reveal.js 4.6</a> · Playfair Display + DM Sans + JetBrains Mono<br>
+      Educational use.
+    </p>
+  </div>
+</section>
+
+</div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/plugin/highlight/highlight.min.js"></script>
+<script>
+Reveal.initialize({ hash: true, slideNumber: 'c/t', transition: 'fade', transitionSpeed: 'fast', controls: true, progress: true, center: false, width: 1100, height: 900, margin: 0.01, plugins: [RevealHighlight], highlight: { theme: 'monokai' } });
+</script>
+<script>
+(function(){ var h = Reveal.getConfig().height || 900; var m = Reveal.getConfig().margin || 0.02; var maxH = Math.floor(h * (1 - 2 * m)) + 'px'; function fixSlides(){ document.querySelectorAll('.reveal .slides>section,.reveal .slides>section>section').forEach(function(s){ s.style.display = 'block'; s.style.maxHeight = maxH; }); } Reveal.on('ready', fixSlides); Reveal.on('slidechanged', fixSlides); })();
+</script>
+</body>
+</html>

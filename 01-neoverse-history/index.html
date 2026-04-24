@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neoverse — History &amp; Product Lines</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/theme/black.min.css">
+<style>
+  :root { --amber:#f5a623;--green:#4ecb8d;--purple:#a78bfa;--blue:#60a5fa;--red:#f87171; --bg:#0a0a0f;--bg2:#10101a;--bg3:#181824;--border:#2a2a3a;--text:#e8e8f0;--muted:#8888a8; }
+  .reveal-viewport { background: var(--bg); }
+  .reveal .slides section { background: transparent; }
+  .reveal section { text-align: left; }
+  .reveal .slides > section { padding: 0.5em; overflow-y: auto !important; align-items: flex-start !important; justify-content: flex-start !important; }
+  .reveal .progress { color: var(--amber); height: 3px; } .reveal .controls { color: var(--amber); }
+  .reveal section::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--amber), var(--green)); }
+  .reveal { font-family: 'DM Sans', sans-serif; color: var(--text); font-size: 22px; }
+  .reveal .slide-number { font-family: 'JetBrains Mono', monospace; font-size: 0.7em; color: var(--muted); }
+  .reveal h1, .reveal h2, .reveal h3 { font-family: 'Playfair Display', serif; color: #fff; text-transform: none; letter-spacing: -0.01em; }
+  .reveal h1 { font-size: 2.4em; font-weight: 900; color: var(--amber); line-height: 1.1; }
+  .reveal h2 { font-size: 1.7em; font-weight: 700; color: var(--amber); margin-bottom: 0.6em; }
+  .reveal h3 { font-size: 1.2em; font-weight: 700; color: var(--green); margin-bottom: 0.3em; }
+  .reveal p  { font-size: 0.75em; line-height: 1.5; color: var(--text); }
+  .reveal li { font-size: 0.7em; line-height: 1.5; margin-bottom: 0.25em; }
+  .reveal code { font-family: 'JetBrains Mono', monospace; font-size: .72em; }
+  .reveal pre  { background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 0.5em 1em; margin: 0.4em 0; width: 100%; box-shadow: none; }
+  .reveal pre code { font-size: 0.58em; line-height: 1.5; background: transparent; color: #cdd6f4; }
+  .slide-hdr { display: flex; align-items: center; gap: .4em; border-bottom: 1px solid var(--border); padding-bottom: .2em; margin-bottom: .3em; }
+  .slide-hdr .tag { font-family: 'JetBrains Mono', monospace; font-size: 0.55em; font-weight: 600; color: var(--bg); background: var(--amber); padding: .1em .4em; border-radius: 3px; letter-spacing: .04em; }
+  .slide-hdr h2 { margin: 0; font-size: 1.4em; }
+  .cols{display:grid;gap:1em;} .cols-2{grid-template-columns:1fr 1fr;} .cols-3{grid-template-columns:1fr 1fr 1fr;} .cols-6040{grid-template-columns:6fr 4fr;} .cols-4060{grid-template-columns:4fr 6fr;}
+  .card { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 1em 1.2em; box-shadow: 0 4px 20px rgba(0,0,0,0.3); margin: 0.4em 0; }
+  .card.amber { border-left: 3px solid var(--amber); } .card.green { border-left: 3px solid var(--green); } .card.purple{ border-left: 3px solid var(--purple); } .card.blue  { border-left: 3px solid var(--blue); } .card.red   { border-left: 3px solid var(--red); }
+  .card h3 { font-size: 1em; margin: 0 0 0.4em; }
+  .card p, .card ul { font-size: 0.8em; margin: 0; color: #b8b8d0; } .card ul { padding-left: 1.2em; } .card li { font-size: 0.85em; margin-bottom: 0.25em; }
+  .reveal table { width: 100%; border-collapse: collapse; font-size: 0.65em; margin: 0.5em 0; }
+  .reveal table th { background: var(--bg3); color: var(--amber); padding: 0.5em 0.7em; border: 1px solid var(--border); text-align: left; font-weight: 700; }
+  .reveal table td { padding: 0.5em 0.7em; border: 1px solid var(--border); color: #ccc; vertical-align: top; }
+  .reveal table tr:nth-child(even) td { background: #0e0e18; }
+  .a{color:var(--amber);font-weight:600;} .g{color:var(--green);font-weight:600;} .p{color:var(--purple);font-weight:600;} .b{color:var(--blue);font-weight:600;} .r{color:var(--red);font-weight:600;} .mono{font-family:'JetBrains Mono',monospace;}
+  svg.diagram { display: block; margin: 0 auto; overflow: visible; }
+  .title-slide h1 { font-size: 2.4em; } .title-slide .subtitle { font-size: 0.85em; color: var(--green); font-weight: 400; letter-spacing: 0.06em; margin: 0.3em 0 0.6em; } .title-slide .meta { font-size: 0.6em; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+  .dim { color: var(--muted); } .small { font-size: 0.65em; } .smaller { font-size: 0.55em; } .tiny { font-size: 0.48em; }
+  .reveal ul, .reveal ol { margin: .15em 0 .15em 1em; }
+
+  .tl { font-family: 'JetBrains Mono', monospace; font-size: 0.68em; display: grid; grid-template-columns: 90px 20px 1fr; gap: 0.2em 0.5em; margin: 0.3em 0; }
+  .tl .yr { color: var(--amber); font-weight: 700; text-align: right; padding-top: 0.35em; }
+  .tl .dot { color: var(--green); text-align: center; padding-top: 0.35em; font-size: 0.9em; }
+  .tl .ev { background: var(--bg2); border-left: 3px solid var(--border); border-radius: 4px; padding: 0.4em 0.7em; color: #cdd6f4; }
+  .tl .ev strong { color: var(--amber); }
+  .tl .ev.hi { border-left-color: var(--amber); background: #1a0f05; }
+
+  .quote { font-style: italic; color: #ccc; padding: 0.5em 1em; border-left: 3px solid var(--blue); background: var(--bg2); border-radius: 4px; font-size: 0.8em; }
+  .quote cite { display: block; font-size: 0.72em; color: var(--muted); font-style: normal; margin-top: 0.4em; }
+</style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<section class="title-slide" data-background-color="#0a0a0f">
+  <div style="font-family:'JetBrains Mono',monospace;font-size:.5em;color:var(--muted);margin-bottom:.4em;letter-spacing:.1em;">ARM NEOVERSE · PRESENTATION 01</div>
+  <h1>History &amp; Product Lines</h1>
+  <div class="subtitle">From &quot;Cortex-A for servers&quot; to a distinct infrastructure brand</div>
+  <div style="width:60px;height:3px;background:var(--amber);margin-bottom:1.4em;"></div>
+  <div class="meta">Cosmos · Ares · Zeus · Poseidon · N1 · V1 · E1 · N2 · V2 · N3 · V3 · CSS</div>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">02</span><h2>Prehistory — Arm in the Server Room (2012-2018)</h2></div>
+  <div class="cols cols-2">
+    <div>
+      <ul>
+        <li><strong class="a">Calxeda EnergyCore (2011-13)</strong> — first serious Arm server SoC (Cortex-A9, fabric-attached). Too early; Calxeda shut down in 2013.</li>
+        <li><strong class="a">AMD Opteron A1100 "Seattle" (2016)</strong> — 8 × Cortex-A57. AMD's first and last attempt at Arm server; cancelled after Zen prioritisation.</li>
+        <li><strong class="a">Qualcomm Centriq 2400 (2017)</strong> — 48 × custom Falkor cores. Technically excellent, strategically abandoned in 2018.</li>
+        <li><strong class="a">Marvell ThunderX / ThunderX2</strong> (Cavium) — 32-48 × custom cores, shipped in Cray XC50 + Astra supercomputer.</li>
+        <li><strong class="a">Ampere eMAG (2018)</strong> — 32 × custom X-Gene, the first "real" commodity Arm server silicon.</li>
+        <li>Every one of these built their own core. <strong>No "Neoverse" yet</strong>: Arm provided licences but no server-optimised IP.</li>
+      </ul>
+    </div>
+    <div>
+      <div class="quote">
+        "The question in 2017 wasn't whether Arm could do a server. It was whether anyone other than Arm's custom licensees could build one."
+        <cite>— infrastructure-industry view, paraphrased</cite>
+      </div>
+      <div class="card amber" style="margin-top:0.6em;">
+        <p>Arm's answer: launch <strong>Neoverse</strong> as a dedicated infrastructure roadmap in October 2018, re-characterising Cortex-A76 for servers and committing to an annual cadence.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">03</span><h2>The 2018 Neoverse Announcement</h2></div>
+  <div class="cols cols-2">
+    <div>
+      <ul>
+        <li>October 16, 2018. Allen Technology Conference, Santa Clara.</li>
+        <li>Arm unveiled <strong>three roadmaps under one brand</strong>:
+          <ul>
+            <li><strong class="a">Cosmos</strong> — available now (2018). = Cortex-A72 / A75 repackaged for server.</li>
+            <li><strong class="a">Ares</strong> — 2019. 7 nm, first "Neoverse-native" — became <strong>N1</strong>.</li>
+            <li><strong class="a">Zeus</strong> — 2020. First to carry a non-mobile, server-only design. Became <strong>V1</strong>.</li>
+            <li><strong class="a">Poseidon</strong> — 2021 roadmap slot, v9-A. Became <strong>N2 / V2</strong>.</li>
+          </ul>
+        </li>
+        <li>Promise: <strong>30% performance/year improvements</strong> — sustained for the first ~5 years (N1→V1→V2 ≈ 50+% per gen on SPEC rates).</li>
+        <li>Three target profiles announced in 2020:
+          <ul>
+            <li><strong class="g">N</strong> — "balanced" scale-out server cores</li>
+            <li><strong class="g">V</strong> — "performance" wide cores for HPC</li>
+            <li><strong class="g">E</strong> — "efficiency" edge/networking cores</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <div>
+      <div class="card green">
+        <h3 class="g">Why three profiles?</h3>
+        <p>Mirrors how Arm served mobile with Cortex-A/R/M. A cloud platform wants dozens of N-cores per socket for scale-out; an HPC system wants fewer V-cores with wider SIMD; a 5G baseband or DPU wants E-cores at lowest power.</p>
+      </div>
+      <div class="card blue" style="margin-top:0.4em;">
+        <h3 class="b">Annual cadence</h3>
+        <p>Delivered every year since 2019 — N1 (2019), V1/E1 (2020-21), N2 (2021), V2 (2022), N3/V3 (2024). Faster than x86, driven by shared microarchitecture with Cortex-A flagships.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">04</span><h2>Neoverse N1 (Ares, 2019)</h2></div>
+  <div class="cols cols-2">
+    <div>
+      <ul>
+        <li>Under the hood: a <strong>Cortex-A76</strong> core, re-validated for server use.</li>
+        <li>4-wide decode, 8-wide issue, 128-bit NEON. No SVE.</li>
+        <li>Private <strong>L2 of up to 1 MB</strong>, LLC (via CMN-600 mesh) 1-2 MB/core.</li>
+        <li>Server-specific:
+          <ul>
+            <li>RAS: ECC on L1/L2/L3, poison handling</li>
+            <li>Single-bit error correction without traps</li>
+            <li>Larger TLBs, server-tuned prefetchers</li>
+          </ul>
+        </li>
+        <li>First major deployment: <strong>AWS Graviton 2</strong> (November 2019) — 64 cores, 7 nm TSMC. Became the basis of ~50 % of new EC2 launches within 3 years.</li>
+        <li>Also shipped in: Ampere Altra (80 → 128 cores), Oracle OCI A1 Flex, Alibaba Yitian 710 (2020).</li>
+      </ul>
+    </div>
+    <div>
+      <svg viewBox="0 0 320 220" style="width:100%;">
+        <rect x="10" y="10" width="300" height="200" rx="10" fill="#10101a" stroke="#f5a623"/>
+        <text x="160" y="38" text-anchor="middle" fill="#f5a623" font-family="Playfair Display" font-weight="700" font-size="16">Neoverse N1 (2019)</text>
+        <g font-family="JetBrains Mono" font-size="11" fill="#cdd6f4">
+          <text x="30" y="62">Architecture ...... Armv8.2-A</text>
+          <text x="30" y="82">Derived from ...... Cortex-A76</text>
+          <text x="30" y="102">Decode / Issue .... 4 / 8 wide</text>
+          <text x="30" y="122">SIMD .............. NEON 128-bit</text>
+          <text x="30" y="142">L1-I / L1-D ....... 64 KB / 64 KB</text>
+          <text x="30" y="162">L2 (private) ...... up to 1 MB</text>
+          <text x="30" y="182">Process ........... 7 nm TSMC</text>
+          <text x="30" y="202">First silicon ..... Graviton 2 (11/2019)</text>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">05</span><h2>Neoverse V1 (Zeus, 2020)</h2></div>
+  <div class="cols cols-2">
+    <div>
+      <ul>
+        <li>Derived from <strong>Cortex-X1</strong> — Arm's first big-and-wide core. Added SVE for HPC.</li>
+        <li><strong>2 × 256-bit SVE</strong> FP pipelines — widest SVE Arm has shipped (only A64FX's 512-bit SVE1 is wider).</li>
+        <li>5-wide decode, larger ROB, deeper OoO, more aggressive prefetch.</li>
+        <li>Added <strong>SMT2</strong> — first Neoverse with simultaneous multi-threading; helps on memory-stall workloads at cost of branch-heavy ones.</li>
+        <li>Private L2 up to 2 MB.</li>
+        <li>First silicon: <strong>AWS Graviton 3</strong> (2022) — 64 cores, 7 cores per chiplet × 7 + IO die.</li>
+        <li>Also: <strong>SiPearl Rhea1</strong> — V1-based European HPC chip for the Jupiter exascale machine (2025).</li>
+      </ul>
+    </div>
+    <div>
+      <div class="card purple">
+        <h3 class="p">V1 is the HPC play</h3>
+        <p>HPC and analytics codes vectorise well; Neoverse V1's 2 × 256-bit SVE delivers ~2.5 × the per-core FP throughput of N1 on BLAS-like kernels, with comparable area to a desktop X1.</p>
+      </div>
+      <div class="card blue" style="margin-top:0.4em;">
+        <h3 class="b">SMT2 on servers</h3>
+        <p>x86 has run 2-way SMT since Pentium 4. Neoverse V1 brings the same trick to Arm — DB-heavy and in-memory KV workloads see 15-30% throughput lift.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">06</span><h2>Neoverse E1 (2020) — the Edge Sibling</h2></div>
+  <div class="cols cols-2">
+    <div>
+      <ul>
+        <li>E = Efficiency. Derived from <strong>Cortex-A65AE</strong>, an in-order dual-issue core.</li>
+        <li>Designed for 5G base stations, NICs, smart switches, SD-WAN appliances — lots of packet-processing threads at low power.</li>
+        <li>Supports <strong>SMT2</strong> natively — unusual for an in-order core, but hides network-packet latency.</li>
+        <li>Per-core: ~10× smaller than an N1, ~1/3 the power.</li>
+        <li>Shipping in: Marvell Octeon 10 DPU, ASR Microelectronics baseband, various OEM data-processing units (DPUs).</li>
+        <li>Successor <strong>E2</strong> (2024) roadmap slot announced but fewer public shipments — edge silicon goes quietly.</li>
+      </ul>
+    </div>
+    <div>
+      <div class="card green">
+        <h3 class="g">Why the E tier exists</h3>
+        <p>A DPU terminating millions of packets per second doesn't want huge OoO machinery; it wants <em>many</em> in-order SMT threads that can keep a 400 GbE pipe full. N/V-class cores would waste area and power on branch predictors the workload can't use.</p>
+      </div>
+      <div class="card amber" style="margin-top:0.4em;">
+        <h3>Adjacent Arm IP</h3>
+        <p>Ethos-N NPUs and Mali GPUs often sit on the same chip — Arm's "infrastructure CSS" reference designs bundle Neoverse-E with Ethos for combined edge-ML + packet boxes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">07</span><h2>Neoverse N2 (Perseus, 2021 — Armv9-A)</h2></div>
+  <div class="cols cols-2">
+    <div>
+      <ul>
+        <li>Derived from Cortex-A710. First <strong>Armv9-A</strong> Neoverse. Mandates SVE2.</li>
+        <li>5-wide decode, 8 × 128-bit SVE2 pipes per core.</li>
+        <li>Significant server-specific refinements:
+          <ul>
+            <li>Larger BTB + refined TAGE predictor</li>
+            <li>Private L2 up to 1 MB</li>
+            <li>Support for <strong>MPAM v1</strong> for QoS of last-level cache + memory bandwidth</li>
+            <li>CHI-B interconnect upgrade</li>
+          </ul>
+        </li>
+        <li>Confidential Compute (RME / CCA) — <strong>first Neoverse with hardware Realms</strong>.</li>
+        <li>Production silicon:
+          <ul>
+            <li><strong>Microsoft Cobalt 100</strong> — 128 cores, Azure (2024)</li>
+            <li><strong>Alibaba Yitian 710</strong> — 128 cores (shipped 2021 — surprise N2 early-bird)</li>
+            <li><strong>NVIDIA BlueField-4</strong> DPU (2024)</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <div>
+      <div class="card amber">
+        <h3>N = scale out</h3>
+        <p>N2's sweet spot is 64-128 cores per socket at ~2.5-3.5 GHz, DDR5 + CXL 2.0 memory. Beats x86 Zen 4 on cloud-native (nginx, Redis, Java) by 25-45% perf/watt.</p>
+      </div>
+      <div class="card blue" style="margin-top:0.4em;">
+        <h3 class="b">V2 (Demeter, 2022)</h3>
+        <p>Paired with N2: derived from Cortex-X3. 4 × 128-bit SVE2 (narrower than V1's 2×256 but same FLOPs). Shipped in <strong>NVIDIA Grace CPU</strong> (72 cores per chiplet, 2 chiplets = 144, 2024).</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">08</span><h2>Neoverse N3 &amp; V3 (2024) — the CSS Generation</h2></div>
+  <div class="cols cols-2">
+    <div>
+      <ul>
+        <li>Announced February 2024 at Arm's Neoverse Tech Day.</li>
+        <li><strong>N3</strong> — successor to N2. Key changes:
+          <ul>
+            <li>Improved core IPC (~20% over N2 on SPEC)</li>
+            <li>Better bf16 / INT8 matmul throughput for AI inference on CPU</li>
+            <li>Tightened DVFS curves for lower idle power</li>
+          </ul>
+        </li>
+        <li><strong>V3</strong> — successor to V2. Biggest generation-on-generation jump (~35% SPECint gain over V2):
+          <ul>
+            <li>Wider front-end, ~384-entry ROB</li>
+            <li>4 × 128-bit SVE2 with higher utilisation</li>
+            <li>New data-dependent prefetcher</li>
+            <li>CCA acceleration</li>
+          </ul>
+        </li>
+        <li>Delivered as part of <strong>Arm Compute Subsystems (CSS)</strong> — pre-validated core + CMN + GIC + SMMU drops. Used by Microsoft Cobalt 200 and AWS Graviton 5 (reportedly).</li>
+      </ul>
+    </div>
+    <div>
+      <svg viewBox="0 0 340 220" style="width:100%;">
+        <rect x="10" y="10" width="320" height="200" rx="10" fill="#10101a" stroke="#f5a623"/>
+        <text x="170" y="32" text-anchor="middle" fill="#f5a623" font-family="Playfair Display" font-size="14" font-weight="700">CSS = Compute Sub-System</text>
+        <rect x="30" y="50" width="280" height="35" rx="4" fill="#2a1a0a" stroke="#f5a623"/>
+        <text x="170" y="72" text-anchor="middle" fill="#f5a623" font-family="JetBrains Mono" font-size="10">Neoverse cores + DSU-equivalent</text>
+        <rect x="30" y="92" width="280" height="35" rx="4" fill="#1a2540" stroke="#60a5fa"/>
+        <text x="170" y="114" text-anchor="middle" fill="#60a5fa" font-family="JetBrains Mono" font-size="10">CMN mesh + SLC slices</text>
+        <rect x="30" y="134" width="280" height="35" rx="4" fill="#1f3a1f" stroke="#4ecb8d"/>
+        <text x="170" y="156" text-anchor="middle" fill="#4ecb8d" font-family="JetBrains Mono" font-size="10">GIC-700 + SMMU-700 + MPAM</text>
+        <rect x="30" y="176" width="280" height="25" rx="4" fill="#2a1a2a" stroke="#a78bfa"/>
+        <text x="170" y="193" text-anchor="middle" fill="#a78bfa" font-family="JetBrains Mono" font-size="10">CoreSight + CHI egress</text>
+      </svg>
+      <p class="small dim" style="margin-top:0.3em;">CSS is the "server-on-a-chip starter kit" — customers integrate chiplets on top, saving 1-2 years of IP integration.</p>
+    </div>
+  </div>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">09</span><h2>Comparing the Families</h2></div>
+  <table>
+    <tr><th>Generation</th><th>Codename</th><th>Based on</th><th>SVE</th><th>Year</th><th>Canonical silicon</th></tr>
+    <tr><td><span class="a">N1</span></td><td>Ares</td><td>Cortex-A76</td><td>—</td><td>2019</td><td>Graviton 2, Ampere Altra, Yitian 710 (early)</td></tr>
+    <tr><td><span class="a">E1</span></td><td>Helios</td><td>Cortex-A65AE</td><td>—</td><td>2020</td><td>Marvell Octeon 10, 5G basebands</td></tr>
+    <tr><td><span class="a">V1</span></td><td>Zeus</td><td>Cortex-X1</td><td>2 × 256-bit</td><td>2021</td><td>Graviton 3 / 3E, SiPearl Rhea1</td></tr>
+    <tr><td><span class="a">N2</span></td><td>Perseus</td><td>Cortex-A710 (v9-A)</td><td>4 × 128-bit SVE2</td><td>2021</td><td>Graviton 4 (partial), Cobalt 100, Yitian 710</td></tr>
+    <tr><td><span class="a">V2</span></td><td>Demeter</td><td>Cortex-X3 (v9-A)</td><td>4 × 128-bit SVE2</td><td>2022</td><td>NVIDIA Grace (72/144), HPE, planned HPC</td></tr>
+    <tr><td><span class="a">N3</span></td><td>—</td><td>A720-class (v9.2-A)</td><td>4 × 128-bit SVE2</td><td>2024</td><td>Azure Cobalt 200 (reported)</td></tr>
+    <tr><td><span class="a">V3</span></td><td>—</td><td>X4-class (v9.2-A)</td><td>4 × 128-bit SVE2</td><td>2024</td><td>Graviton 5 (reported), NVIDIA Grace next-gen</td></tr>
+  </table>
+  <p class="small">Not shown: custom-core Neoverse &quot;cousins&quot; like <strong>Ampere AmpereOne</strong> (A192 — 192 custom cores, Armv8.6-A) and <strong>Microsoft Cobalt 100</strong> (N2 integration). The V-series trades core count for width; the N-series goes for socket density.</p>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">10</span><h2>The N vs V Tradeoff</h2></div>
+  <div class="cols cols-2">
+    <div>
+      <svg viewBox="0 0 320 240" style="width:100%;">
+        <rect x="10" y="10" width="300" height="220" rx="10" fill="#10101a" stroke="#f5a623"/>
+        <text x="160" y="32" text-anchor="middle" fill="#f5a623" font-family="Playfair Display" font-weight="700" font-size="13">Throughput vs single-thread</text>
+        <!-- axes -->
+        <line x1="40" y1="200" x2="280" y2="200" stroke="#8888a8"/>
+        <line x1="40" y1="200" x2="40" y2="55" stroke="#8888a8"/>
+        <text x="160" y="220" text-anchor="middle" fill="#8888a8" font-family="JetBrains Mono" font-size="9">Single-thread IPC →</text>
+        <text x="20" y="130" text-anchor="middle" fill="#8888a8" font-family="JetBrains Mono" font-size="9" transform="rotate(-90,20,130)">Cores/socket →</text>
+        <!-- points -->
+        <circle cx="80" cy="90" r="7" fill="#4ecb8d"/>
+        <text x="80" y="75" text-anchor="middle" fill="#4ecb8d" font-family="JetBrains Mono" font-size="9">E1</text>
+        <circle cx="140" cy="130" r="7" fill="#60a5fa"/>
+        <text x="140" y="115" text-anchor="middle" fill="#60a5fa" font-family="JetBrains Mono" font-size="9">N1</text>
+        <circle cx="160" cy="110" r="7" fill="#60a5fa"/>
+        <text x="160" y="105" text-anchor="middle" fill="#60a5fa" font-family="JetBrains Mono" font-size="9">N2</text>
+        <circle cx="170" cy="95" r="7" fill="#60a5fa"/>
+        <text x="170" y="86" text-anchor="middle" fill="#60a5fa" font-family="JetBrains Mono" font-size="9">N3</text>
+        <circle cx="210" cy="170" r="7" fill="#f5a623"/>
+        <text x="225" y="173" fill="#f5a623" font-family="JetBrains Mono" font-size="9">V1</text>
+        <circle cx="230" cy="180" r="7" fill="#f5a623"/>
+        <text x="245" y="183" fill="#f5a623" font-family="JetBrains Mono" font-size="9">V2</text>
+        <circle cx="250" cy="190" r="7" fill="#f5a623"/>
+        <text x="265" y="193" fill="#f5a623" font-family="JetBrains Mono" font-size="9">V3</text>
+      </svg>
+    </div>
+    <div>
+      <ul>
+        <li><strong class="g">E-series</strong> — low IPC, high thread count, very low power. DPUs, 5G, edge.</li>
+        <li><strong class="b">N-series</strong> — middling IPC, very high core counts per socket (up to 192). Cloud scale-out.</li>
+        <li><strong class="a">V-series</strong> — wide OoO + wide SIMD for single-thread + HPC; fewer cores per socket (48-96), SMT2.</li>
+        <li>Between customers: AWS uses N for cloud, V for HPC. Microsoft uses N for Azure. NVIDIA uses V for Grace (HPC + AI).</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">11</span><h2>Timeline — 2012 to 2024</h2></div>
+  <div class="tl">
+    <div class="yr">2012</div><div class="dot">●</div><div class="ev">Calxeda EnergyCore (Cortex-A9): first serious Arm server — too early</div>
+    <div class="yr">2016</div><div class="dot">●</div><div class="ev">AMD Opteron A1100 (A57) ships then dies; Arm-Cavium ThunderX1 finds scientific use</div>
+    <div class="yr">2017</div><div class="dot">●</div><div class="ev">Qualcomm Centriq 2400 (Falkor custom); cancelled 2018</div>
+    <div class="yr">2018</div><div class="dot">●</div><div class="ev hi"><strong>Neoverse brand launched</strong> — Cosmos / Ares / Zeus / Poseidon roadmap</div>
+    <div class="yr">2019</div><div class="dot">●</div><div class="ev hi"><strong>Neoverse N1</strong> (Ares) + AWS <strong>Graviton 2</strong> — the turning point</div>
+    <div class="yr">2020</div><div class="dot">●</div><div class="ev">Ampere Altra (80-cores N1); Neoverse <strong>E1</strong> for edge</div>
+    <div class="yr">2021</div><div class="dot">●</div><div class="ev hi"><strong>Neoverse V1</strong> (Zeus, SVE 2×256b) + first-mover SiPearl Rhea; Alibaba Yitian 710 ships N2 early</div>
+    <div class="yr">2022</div><div class="dot">●</div><div class="ev"><strong>Graviton 3</strong> (V1 + DDR5 + PCIe Gen 5); <strong>Neoverse N2</strong> (Perseus) generally available</div>
+    <div class="yr">2022</div><div class="dot">●</div><div class="ev"><strong>Neoverse V2</strong> (Demeter) + NVIDIA <strong>Grace</strong> unveiled</div>
+    <div class="yr">2023</div><div class="dot">●</div><div class="ev">AmpereOne (custom-core "Siryn") ships; Arm IPO on NASDAQ</div>
+    <div class="yr">2024</div><div class="dot">●</div><div class="ev hi"><strong>Neoverse N3 / V3</strong>; Azure Cobalt 100 (N2) + AWS <strong>Graviton 4</strong>; Arm Total Design + CSS IP delivery</div>
+  </div>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">12</span><h2>Why Neoverse Succeeded Where Earlier Attempts Failed</h2></div>
+  <div class="cols cols-2">
+    <div>
+      <ul>
+        <li><strong class="a">Shared microarchitecture with Cortex-A flagships</strong> — amortises R&amp;D. Each Cortex-X/-A generation becomes a Neoverse within ~1 year.</li>
+        <li><strong class="a">Perf/Watt at hyperscale</strong> — AWS, Microsoft, Google all face power-constrained datacentres. Neoverse N1/N2 at 2.5-3 W/core vs Xeon's 5-8 W/core is decisive.</li>
+        <li><strong class="a">Software ecosystem caught up</strong> — Linux, JVM, Go, .NET, PyTorch, Postgres, Redis, Kafka all have first-class AArch64 builds since 2020.</li>
+        <li><strong class="a">SystemReady</strong> — a Linux distro boots on any compliant server without vendor-specific patches. Finally matched x86's UEFI/ACPI experience.</li>
+        <li><strong class="a">Hyperscaler self-sufficiency</strong> — AWS, Microsoft, Google now <em>design</em> their own Arm silicon, cutting out the middleman. Neoverse IP licences + Arm's CSS makes this practical.</li>
+      </ul>
+    </div>
+    <div>
+      <div class="card green">
+        <h3 class="g">Graviton as Arm's proof-point</h3>
+        <p>AWS reports Graviton now accounts for <strong>&gt;50% of new EC2 capacity</strong>. Customers see 20-40% price/perf improvement over Intel/AMD. Hard to argue with the datacentre P&amp;L.</p>
+      </div>
+      <div class="card blue" style="margin-top:0.4em;">
+        <h3 class="b">Open-source alignment</h3>
+        <p>Arm backed Linaro + TF-A + EDK2 + Tianocore to make sure the full server stack was permissively licensed. Removed a big barrier for hyperscalers.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">13</span><h2>Neoverse CSS — the 2024 Shift</h2></div>
+  <div class="cols cols-2">
+    <div>
+      <ul>
+        <li><strong>Compute Sub-System (CSS)</strong> — a pre-integrated block of cores + DSU-like cluster + CMN slice + system IP (GIC, SMMU, CoreSight).</li>
+        <li>Customers get a validated RTL drop ready to tile into a chiplet or SoC. Saves 12-24 months.</li>
+        <li>First CSS: <strong>CSS N2</strong> (64 cores in a mesh), delivered late 2023. Azure Cobalt 100 built on it.</li>
+        <li>Follow-on: <strong>CSS V3 / N3</strong> (2024). Some variants offer optional bundled HBM3 / LPDDR5X memory controllers.</li>
+        <li>Part of <strong>"Arm Total Design"</strong> — 30+ partner ecosystem (TSMC, Samsung Foundry, Cadence, Synopsys, Siemens EDA) aligned to help customers build chiplets.</li>
+      </ul>
+    </div>
+    <div>
+      <div class="card purple">
+        <h3 class="p">Why CSS exists</h3>
+        <p>Integrating a full Neoverse mesh is <em>hard</em> — physical design, RTL signoff, ISO 26262/RAS. Only hyperscalers with 100+ engineer silicon teams could afford it. CSS democratises access to Neoverse for companies with much smaller teams.</p>
+      </div>
+      <div class="card amber" style="margin-top:0.4em;">
+        <h3>The chiplet angle</h3>
+        <p>CSS maps cleanly onto a single chiplet, making Neoverse the "compute" side of UCIe-based multi-chiplet SoCs. Memory / IO / AI accelerators live on complementary chiplets.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">14</span><h2>Relationship to Cortex-A</h2></div>
+  <div class="cols cols-2">
+    <div>
+      <ul>
+        <li>Every shipping Neoverse is <strong>based on</strong> a Cortex-A/X flagship. But they are not identical — server re-validation adds:
+          <ul>
+            <li>RAS features (ECC, poison, lockstep support)</li>
+            <li>Larger TLBs</li>
+            <li>Mesh-style CHI egress (AMBA 5)</li>
+            <li>MPAM v1 QoS</li>
+            <li>Server-tuned prefetchers &amp; branch predictors</li>
+            <li>Tuning for 2-3 GHz sustained vs 3.5+ GHz burst</li>
+          </ul>
+        </li>
+        <li>The packaging is very different: Cortex-A ships as an IP drop to phone OEMs with DSU; Neoverse ships to silicon OEMs with CMN integration.</li>
+      </ul>
+    </div>
+    <div>
+      <div class="card amber">
+        <h3>Fork timing</h3>
+        <p>Typical pattern: Cortex-X/-A unveiled at Computex/May. Matching Neoverse unveiled at Arm Neoverse Tech Day (Oct-Feb) 6-12 months later. That's the validation + RAS window.</p>
+      </div>
+      <div class="card green" style="margin-top:0.4em;">
+        <h3 class="g">Benchmark flavours</h3>
+        <p>Phone cores aim for Geekbench ST. Neoverse aims for SPECrate, STREAM, DGEMM, DB/nginx/Kafka rps. Different prefetcher tuning per target.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">15</span><h2>Lessons for the Interview</h2></div>
+  <div class="cols cols-2">
+    <div>
+      <ul>
+        <li><strong class="a">"What's the difference between Neoverse N and V?"</strong> → N is scale-out (many cores, modest IPC). V is performance (wide OoO, wide SVE, SMT2). E is edge (low-power, in-order SMT).</li>
+        <li><strong class="a">"What was N1 derived from?"</strong> → Cortex-A76, re-validated with server-grade RAS, larger TLBs, CMN-600 egress.</li>
+        <li><strong class="a">"Why did Graviton win in AWS?"</strong> → ~40% better perf/$ and perf/W than contemporary x86 Xeon/Epyc on cloud-native workloads. Plus AWS owns the design, cutting Intel/AMD margin.</li>
+      </ul>
+    </div>
+    <div>
+      <ul>
+        <li><strong class="g">"What is CSS?"</strong> → Compute Sub-System: pre-integrated Neoverse + CMN + GIC + SMMU + CoreSight + DDR/CXL PHY. Makes chiplet integration a ~6-month task instead of ~2 years.</li>
+        <li><strong class="g">"What SVE width does V1 ship?"</strong> → 2 × 256-bit per pipe, highest Neoverse SVE width. V2 and V3 went back to 4 × 128 for a different throughput shape.</li>
+        <li><strong class="g">"Why SMT2 on V-series but not N?"</strong> → HPC + DB workloads memory-stall. SMT2 hides the stall at cost of per-thread IPC. Cloud scale-out is already parallel across cores; SMT would fight cache pressure.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">16</span><h2>References</h2></div>
+  <div style="max-width:90%;margin:0 auto;font-size:0.58em;line-height:1.8;">
+    <p>
+      <strong class="a">Arm Ltd.</strong> — Neoverse TRMs (N1, V1, N2, V2, N3, V3) — freely downloadable on developer.arm.com<br>
+      <strong class="a">Arm Ltd.</strong> — <em>Neoverse Tech Day 2022 / 2024</em> keynotes and whitepapers<br>
+      <strong class="a">Arm Ltd.</strong> — <em>Arm Compute Sub-Systems (CSS) product briefs</em><br>
+      <strong class="a">AWS</strong> — <em>Graviton 2 / 3 / 4 performance whitepapers</em> — aws.amazon.com/ec2/graviton<br>
+      <strong class="a">NVIDIA</strong> — <em>NVIDIA Grace CPU superchip architecture whitepaper</em><br>
+      <strong class="a">ServeTheHome / Phoronix / Anandtech</strong> — independent Neoverse benchmark reviews (2019-2024)<br>
+      <strong class="a">Chipsandcheese.com</strong> — microarchitecture deep-dives on Neoverse N1/V1/V2<br>
+      <strong class="a">SiPearl / Jupiter EuroHPC</strong> — Rhea1 architecture papers
+    </p>
+    <p style="color:var(--muted);margin-top:0.8em;font-size:0.85em">
+      Presentation built with <a href="https://revealjs.com">Reveal.js 4.6</a> · Playfair Display + DM Sans + JetBrains Mono<br>
+      Educational use.
+    </p>
+  </div>
+</section>
+
+</div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/plugin/highlight/highlight.min.js"></script>
+<script>
+Reveal.initialize({ hash: true, slideNumber: 'c/t', transition: 'fade', transitionSpeed: 'fast', controls: true, progress: true, center: false, width: 1100, height: 900, margin: 0.01, plugins: [RevealHighlight], highlight: { theme: 'monokai' } });
+</script>
+<script>
+(function(){ var h = Reveal.getConfig().height || 900; var m = Reveal.getConfig().margin || 0.02; var maxH = Math.floor(h * (1 - 2 * m)) + 'px'; function fixSlides(){ document.querySelectorAll('.reveal .slides>section,.reveal .slides>section>section').forEach(function(s){ s.style.display = 'block'; s.style.maxHeight = maxH; }); } Reveal.on('ready', fixSlides); Reveal.on('slidechanged', fixSlides); })();
+</script>
+</body>
+</html>

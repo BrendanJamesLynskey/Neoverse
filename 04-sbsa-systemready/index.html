@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SBSA, SystemReady &amp; the Platform Contract</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/theme/black.min.css">
+<style>
+  :root { --amber:#f5a623;--green:#4ecb8d;--purple:#a78bfa;--blue:#60a5fa;--red:#f87171; --bg:#0a0a0f;--bg2:#10101a;--bg3:#181824;--border:#2a2a3a;--text:#e8e8f0;--muted:#8888a8; }
+  .reveal-viewport { background: var(--bg); }
+  .reveal .slides section { background: transparent; }
+  .reveal section { text-align: left; }
+  .reveal .slides > section { padding: 0.5em; overflow-y: auto !important; align-items: flex-start !important; justify-content: flex-start !important; }
+  .reveal .progress { color: var(--amber); height: 3px; } .reveal .controls { color: var(--amber); }
+  .reveal section::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--amber), var(--green)); }
+  .reveal { font-family: 'DM Sans', sans-serif; color: var(--text); font-size: 22px; }
+  .reveal .slide-number { font-family: 'JetBrains Mono', monospace; font-size: 0.7em; color: var(--muted); }
+  .reveal h1, .reveal h2, .reveal h3 { font-family: 'Playfair Display', serif; color: #fff; text-transform: none; letter-spacing: -0.01em; }
+  .reveal h1 { font-size: 2.4em; font-weight: 900; color: var(--amber); line-height: 1.1; }
+  .reveal h2 { font-size: 1.7em; font-weight: 700; color: var(--amber); margin-bottom: 0.6em; }
+  .reveal h3 { font-size: 1.2em; font-weight: 700; color: var(--green); margin-bottom: 0.3em; }
+  .reveal p  { font-size: 0.75em; line-height: 1.5; color: var(--text); }
+  .reveal li { font-size: 0.7em; line-height: 1.5; margin-bottom: 0.25em; }
+  .reveal code { font-family: 'JetBrains Mono', monospace; font-size: .72em; }
+  .reveal pre  { background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 0.5em 1em; margin: 0.4em 0; width: 100%; box-shadow: none; }
+  .reveal pre code { font-size: 0.58em; line-height: 1.5; background: transparent; color: #cdd6f4; }
+  .slide-hdr { display: flex; align-items: center; gap: .4em; border-bottom: 1px solid var(--border); padding-bottom: .2em; margin-bottom: .3em; }
+  .slide-hdr .tag { font-family: 'JetBrains Mono', monospace; font-size: 0.55em; font-weight: 600; color: var(--bg); background: var(--amber); padding: .1em .4em; border-radius: 3px; letter-spacing: .04em; }
+  .slide-hdr h2 { margin: 0; font-size: 1.4em; }
+  .cols{display:grid;gap:1em;} .cols-2{grid-template-columns:1fr 1fr;} .cols-3{grid-template-columns:1fr 1fr 1fr;} .cols-6040{grid-template-columns:6fr 4fr;} .cols-4060{grid-template-columns:4fr 6fr;}
+  .card { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 1em 1.2em; box-shadow: 0 4px 20px rgba(0,0,0,0.3); margin: 0.4em 0; }
+  .card.amber { border-left: 3px solid var(--amber); } .card.green { border-left: 3px solid var(--green); } .card.purple{ border-left: 3px solid var(--purple); } .card.blue  { border-left: 3px solid var(--blue); } .card.red   { border-left: 3px solid var(--red); }
+  .card h3 { font-size: 1em; margin: 0 0 0.4em; }
+  .card p, .card ul { font-size: 0.8em; margin: 0; color: #b8b8d0; } .card ul { padding-left: 1.2em; } .card li { font-size: 0.85em; margin-bottom: 0.25em; }
+  .reveal table { width: 100%; border-collapse: collapse; font-size: 0.65em; margin: 0.5em 0; }
+  .reveal table th { background: var(--bg3); color: var(--amber); padding: 0.5em 0.7em; border: 1px solid var(--border); text-align: left; font-weight: 700; }
+  .reveal table td { padding: 0.5em 0.7em; border: 1px solid var(--border); color: #ccc; vertical-align: top; }
+  .reveal table tr:nth-child(even) td { background: #0e0e18; }
+  .a{color:var(--amber);font-weight:600;} .g{color:var(--green);font-weight:600;} .p{color:var(--purple);font-weight:600;} .b{color:var(--blue);font-weight:600;} .r{color:var(--red);font-weight:600;} .mono{font-family:'JetBrains Mono',monospace;}
+  svg.diagram { display: block; margin: 0 auto; overflow: visible; }
+  .title-slide h1 { font-size: 2.4em; } .title-slide .subtitle { font-size: 0.85em; color: var(--green); font-weight: 400; letter-spacing: 0.06em; margin: 0.3em 0 0.6em; } .title-slide .meta { font-size: 0.6em; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+  .dim { color: var(--muted); } .small { font-size: 0.65em; } .smaller { font-size: 0.55em; } .tiny { font-size: 0.48em; }
+  .reveal ul, .reveal ol { margin: .15em 0 .15em 1em; }
+</style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<section class="title-slide" data-background-color="#0a0a0f">
+  <div style="font-family:'JetBrains Mono',monospace;font-size:.5em;color:var(--muted);margin-bottom:.4em;letter-spacing:.1em;">ARM NEOVERSE · PRESENTATION 04</div>
+  <h1>SBSA, SystemReady &amp; the Platform Contract</h1>
+  <div class="subtitle">What makes a Neoverse SoC into a server you can just boot Ubuntu on</div>
+  <div style="width:60px;height:3px;background:var(--amber);margin-bottom:1.4em;"></div>
+  <div class="meta">SBSA levels 3-7 · SBBR · BSA · SystemReady SR / ES / IR / LS · UEFI + ACPI on Arm</div>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">02</span><h2>The Pre-SBSA Problem</h2></div>
+  <div class="cols cols-2">
+    <div>
+      <ul>
+        <li>Pre-2016 Arm servers were each a little snowflake — vendor-specific boot, vendor-patched kernel, vendor device tree, vendor config for GIC/SMMU/timers.</li>
+        <li>Ubuntu on Cavium ThunderX needed one patched kernel tree; Ubuntu on AMD Seattle needed another; neither ran on each other's box.</li>
+        <li>This was OK in mobile (vendor bootloader + AOSP image per device) but unsuitable for datacentres where the admin wants <em>"just boot a stock RHEL/Ubuntu/Rocky ISO"</em>.</li>
+        <li>x86 had solved this in the 1990s: <strong>BIOS → UEFI</strong> + <strong>ACPI</strong> gave a standard runtime machine description; installers probed and worked everywhere.</li>
+        <li>Arm needed the same contract. SBSA (2016) + SBBR + BSA (2019) + SystemReady (2020) built it.</li>
+      </ul>
+    </div>
+    <div>
+      <div class="quote">
+        "If you have to rebuild your kernel per box, it's not a server; it's an embedded project wearing a blazer."
+        <cite>— datacentre operator axiom</cite>
+      </div>
+      <div class="card amber" style="margin-top:0.6em;">
+        <p>The platform contract is as important as the CPU itself for Neoverse's success. Graviton wouldn't exist at hyperscale if AWS had to maintain a bespoke kernel image.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">03</span><h2>The Standards Stack</h2></div>
+  <table>
+    <tr><th>Spec</th><th>What it defines</th><th>Who consumes it</th></tr>
+    <tr><td><span class="a">SBSA</span></td><td>Minimum architectural features the SoC must have (GICv3, SMMUv3, PCIe, timers, PMU)</td><td>Silicon designer</td></tr>
+    <tr><td><span class="a">SBBR</span></td><td>Boot requirements — UEFI 2.7+, PSCI, ACPI tables, SMBIOS</td><td>Firmware + bootloader team</td></tr>
+    <tr><td><span class="a">BSA</span></td><td>Base System Architecture — the SBSA successor covering <em>all</em> Arm platforms (not only server)</td><td>Silicon designer (newer IoT / automotive)</td></tr>
+    <tr><td><span class="a">BBR</span></td><td>Base Boot Requirements — BSA companion</td><td>Firmware</td></tr>
+    <tr><td><span class="a">ACS</span></td><td>Architecture Compliance Suite — software tests that run on the SoC to prove compliance</td><td>Validation + certification</td></tr>
+    <tr><td><span class="a">SystemReady</span></td><td>Certification program that bundles BSA + BBR + ACS into tiers (SR, ES, IR, LS)</td><td>OEM, OS distributor</td></tr>
+  </table>
+  <p class="small">Think of it as three layers: <strong>SBSA/BSA</strong> says what the silicon must have; <strong>SBBR/BBR</strong> says what the firmware must expose; <strong>SystemReady</strong> is the stamp that says &quot;a distro can boot unmodified on this box&quot;.</p>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">04</span><h2>SBSA Levels — 3 through 7</h2></div>
+  <table>
+    <tr><th>Level</th><th>Year</th><th>Key additions</th></tr>
+    <tr><td><span class="a">SBSA 3</span></td><td>2016</td><td>GICv3 + ITS · SMMUv2 · PCIe Gen 3 · 64-bit AArch64 only · EL2 virtualization · Armv8.1-A</td></tr>
+    <tr><td><span class="a">SBSA 4</span></td><td>2018</td><td>SMMUv3 · PCIe PASID + ATS · Armv8.2-A baseline · PMUv3 events · RAS architecture · DIT</td></tr>
+    <tr><td><span class="a">SBSA 5</span></td><td>2019</td><td>MPAM v1 optional · Armv8.4-A features (secure-EL2, nested virt) · Enhanced RAS · Activity Monitors (AMU)</td></tr>
+    <tr><td><span class="a">SBSA 6</span></td><td>2021</td><td>Armv8.5-A: BTI / MTE / SSBS · SPE required · TRBE · Counter virtualization</td></tr>
+    <tr><td><span class="a">SBSA 7</span></td><td>2023</td><td>Armv9.0-A baseline: SVE2 mandatory · RME / CCA optional · CXL 2.0 · MPAM v1 mandatory</td></tr>
+  </table>
+  <p class="small">Each level is cumulative. Graviton 2 is SBSA 4. Graviton 3 is SBSA 5. Cobalt 100 and Graviton 4 are SBSA 6+. CSS V3 / N3 targets SBSA 7.</p>
+  <div class="card amber" style="margin-top:0.4em;">
+    <p>SBSA levels are the way Arm disciplines the ecosystem: every generation of Neoverse bumps at least one level, which in turn forces OS distributions to keep pace — and forces silicon vendors to add features that would otherwise be optional.</p>
+  </div>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">05</span><h2>Core Mandatory IP Under SBSA</h2></div>
+  <div class="cols cols-2">
+    <div>
+      <ul>
+        <li><strong class="a">GICv3 (+ ITS)</strong> — interrupt controller. ITS (Interrupt Translation Service) handles MSI / LPI routing.</li>
+        <li><strong class="a">SMMU-v3</strong> — I/O MMU. Stage 1 + 2 translation, ATS / PASID / PRI, event queue.</li>
+        <li><strong class="a">Generic Timer</strong> — architectural per-EL timers + memory-mapped system counter.</li>
+        <li><strong class="a">PMU (PMUv3)</strong> — standardised performance counter access at EL1 + EL0.</li>
+        <li><strong class="a">PCIe root complex</strong> — PCIe ECAM memory layout specified.</li>
+        <li><strong class="a">UART</strong> — SBSA UART is a subset of PL011; boot console.</li>
+        <li><strong class="a">Watchdog</strong> — SBSA Watchdog spec; two-stage (warn + reset).</li>
+        <li><strong class="a">TPM</strong> — for SBSA 5+, a TCG-compliant TPM 2.0 at a discoverable location.</li>
+      </ul>
+    </div>
+    <div>
+      <div class="card green">
+        <h3 class="g">Why name specific IPs?</h3>
+        <p>Not to lock vendors in — GICv3 is architectural, many vendors' own implementations conform. But SBSA <em>specifies</em> programming interfaces so Linux drivers are shared.</p>
+      </div>
+      <div class="card blue" style="margin-top:0.4em;">
+        <h3 class="b">See the System IP deck</h3>
+        <p>Deep dive on GIC, SMMU, DynamIQ DSU, MPAM/CoreSight in the <a href="https://github.com/BrendanJamesLynskey/Arm_System_IP" style="color:var(--blue);">Arm System IP series</a>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">06</span><h2>SBBR — What the Firmware Must Do</h2></div>
+  <div class="cols cols-2">
+    <div>
+      <ul>
+        <li>UEFI 2.7+ (runtime services, boot services, boot manager, HII).</li>
+        <li>ACPI 6.3+ tables describing every device:
+          <ul>
+            <li><span class="mono">RSDT / XSDT</span> — root pointers</li>
+            <li><span class="mono">MADT</span> — GIC topology</li>
+            <li><span class="mono">GTDT</span> — timers</li>
+            <li><span class="mono">IORT</span> — SMMU/PCIe topology</li>
+            <li><span class="mono">PPTT</span> — processor cache/package hierarchy</li>
+            <li><span class="mono">SPCR</span> — UART config</li>
+            <li><span class="mono">SLIT / SRAT</span> — NUMA + affinity</li>
+            <li><span class="mono">MPAM / APMT / BDAT</span> — partitioning + DRAM setup</li>
+          </ul>
+        </li>
+        <li>PSCI (Power State Coordination) — <span class="mono">CPU_ON</span>, <span class="mono">CPU_OFF</span>, <span class="mono">SYSTEM_RESET</span>, <span class="mono">SYSTEM_SUSPEND</span>.</li>
+      </ul>
+    </div>
+    <div>
+      <pre><code class="nohighlight">// Boot flow on a SystemReady-SR Arm server:
+// (x86-like, except EL3 secure monitor below UEFI)
+
+BL1 (ROM loader)          → in ROM
+BL2 (image loader)        → DRAM bring-up
+BL31 (EL3, TF-A)          → PSCI, SDEI, SMCCC services
+BL32 (optional S-EL1 TEE) → OP-TEE if present
+BL33 (UEFI, EDK2)         → Boot Manager, ACPI tables
+
+UEFI -&gt; grub-aa64.efi -&gt; vmlinuz + initrd
+
+// Linux sees: ACPI tables, PSCI over SMC, GICv3, SMMUv3
+// No per-vendor DTB; device description is ACPI.
+</code></pre>
+    </div>
+  </div>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">07</span><h2>BSA — the Superset for All Arm Platforms</h2></div>
+  <div class="cols cols-2">
+    <div>
+      <ul>
+        <li>BSA (Base System Architecture) was announced in 2019 as the <em>superset</em> of SBSA + the equivalent for embedded / IoT / client Arm platforms.</li>
+        <li>Same philosophy: define the standard runtime feature set so distros don't need per-device patches.</li>
+        <li>Used by:
+          <ul>
+            <li>Arm-based laptops (Windows on Arm devices, Qualcomm Snapdragon Compute)</li>
+            <li>IoT / networking SoCs targeting Ubuntu or Fedora IoT</li>
+            <li>Automotive Linux targets (QNX, AGL)</li>
+          </ul>
+        </li>
+        <li>BBR is the companion firmware boot spec.</li>
+        <li>SBSA is now effectively "BSA for servers" — has SBSA-specific extras like PCIe Root Complex requirements.</li>
+      </ul>
+    </div>
+    <div>
+      <div class="card amber">
+        <h3>Why BSA matters</h3>
+        <p>A decade ago every Arm dev board booted differently (U-Boot with per-SoC defconfig, NAND-specific). BSA gives IoT device OEMs the same "distro boots unmodified" experience servers already have.</p>
+      </div>
+      <div class="card green" style="margin-top:0.4em;">
+        <h3 class="g">Shared ecosystem with x86</h3>
+        <p>BSA + BBR = UEFI/ACPI on Arm. Ubuntu's single arm64 ISO boots on any certified box, exactly like the x86-64 ISO boots on any PC. Same tool-chain (grub, systemd-boot, sb-sign).</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">08</span><h2>SystemReady — the Certification Tiers</h2></div>
+  <table>
+    <tr><th>Tier</th><th>Scope</th><th>Target</th><th>Example platforms</th></tr>
+    <tr><td><span class="a">SR</span> (Server)</td><td>Full SBSA + SBBR; Linux distro boots unmodified</td><td>Data centre servers</td><td>Graviton, Ampere Altra, Azure Cobalt</td></tr>
+    <tr><td><span class="a">ES</span> (Embedded Server)</td><td>SBSA-like for edge servers (5G base station, network appliance)</td><td>Telco, CDN</td><td>Marvell Octeon 10, ECS-style DPUs</td></tr>
+    <tr><td><span class="a">IR</span> (IoT Ready)</td><td>BSA + BBR + U-Boot compat; slimmer — fits a Raspberry Pi class SoC</td><td>Gateways, IoT hubs</td><td>NXP i.MX 8M Plus, Rockchip RK3588</td></tr>
+    <tr><td><span class="a">LS</span> (LinuxBoot Server)</td><td>SR-equivalent but LinuxBoot flavoured firmware (kernel-as-loader), no UEFI at runtime</td><td>Hyperscaler custom platforms</td><td>OCP / internal designs</td></tr>
+    <tr><td><span class="a">Devicetree</span> (legacy)</td><td>Devicetree-based boards that don't do ACPI</td><td>Embedded, older SoCs</td><td>Hundreds of board types</td></tr>
+  </table>
+  <p class="small">All SystemReady tiers run the <strong>Arm ACS</strong> (Architecture Compliance Suite) — a set of ~2500 automated tests that must pass before a vendor claims certification. Published pass lists are at <a href="https://www.arm.com/architecture/system-architectures/systemready-certification-program" style="color:var(--blue);">arm.com/SystemReady</a>.</p>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">09</span><h2>Linux Boot Path on a SystemReady-SR Box</h2></div>
+  <div class="cols cols-2">
+    <div>
+      <svg viewBox="0 0 320 300" style="width:100%;">
+        <rect x="10" y="10" width="300" height="280" rx="10" fill="#10101a" stroke="#f5a623"/>
+        <rect x="30" y="25" width="260" height="30" rx="3" fill="#2a0a1a" stroke="#f87171"/>
+        <text x="160" y="45" text-anchor="middle" fill="#f87171" font-family="JetBrains Mono" font-size="10">Mask ROM / BL1 (on-chip)</text>
+        <rect x="30" y="60" width="260" height="30" rx="3" fill="#2a1a0a" stroke="#f5a623"/>
+        <text x="160" y="80" text-anchor="middle" fill="#f5a623" font-family="JetBrains Mono" font-size="10">BL2 — DRAM bring-up, board init</text>
+        <rect x="30" y="95" width="260" height="30" rx="3" fill="#2a1a0a" stroke="#f5a623"/>
+        <text x="160" y="115" text-anchor="middle" fill="#f5a623" font-family="JetBrains Mono" font-size="10">BL31 — EL3 TF-A, PSCI, SDEI, SMCCC</text>
+        <rect x="30" y="130" width="260" height="30" rx="3" fill="#1f3a1f" stroke="#4ecb8d"/>
+        <text x="160" y="150" text-anchor="middle" fill="#4ecb8d" font-family="JetBrains Mono" font-size="10">BL32 — S-EL1 OP-TEE (optional)</text>
+        <rect x="30" y="165" width="260" height="30" rx="3" fill="#1a2540" stroke="#60a5fa"/>
+        <text x="160" y="185" text-anchor="middle" fill="#60a5fa" font-family="JetBrains Mono" font-size="10">BL33 — UEFI (EDK2 EL2)</text>
+        <rect x="30" y="200" width="260" height="30" rx="3" fill="#2a1a2a" stroke="#a78bfa"/>
+        <text x="160" y="220" text-anchor="middle" fill="#a78bfa" font-family="JetBrains Mono" font-size="10">grub-aa64.efi (EL1)</text>
+        <rect x="30" y="235" width="260" height="30" rx="3" fill="#1a2540" stroke="#60a5fa"/>
+        <text x="160" y="255" text-anchor="middle" fill="#60a5fa" font-family="JetBrains Mono" font-size="10">Linux kernel + initramfs (EL1)</text>
+        <rect x="30" y="270" width="260" height="15" rx="3" fill="#0e0e18" stroke="#555"/>
+        <text x="160" y="282" text-anchor="middle" fill="#cdd6f4" font-family="JetBrains Mono" font-size="9">systemd / userspace / apps (EL0)</text>
+      </svg>
+    </div>
+    <div>
+      <ul>
+        <li>Every transition is <strong>standardised</strong> — UEFI handoff protocol, PSCI ABI, ACPI runtime.</li>
+        <li>Linux entry point doesn't care about vendor: reads MADT/GTDT/IORT from ACPI, brings up cores via PSCI.</li>
+        <li>TF-A (EL3) is the same code base across 40+ SoCs with vendor-specific BL2 platforms as plugins.</li>
+        <li>Kernel command line + initramfs fetched from EFI System Partition — same as any x86 UEFI box.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">10</span><h2>ACPI Tables You'll See on Neoverse</h2></div>
+  <table>
+    <tr><th>Table</th><th>Contents</th></tr>
+    <tr><td><span class="mono">MADT</span></td><td>GICv3 distributor / redistributor / ITS locations + CPU IDs</td></tr>
+    <tr><td><span class="mono">GTDT</span></td><td>Generic Timer + Watchdog base addresses, secure/nonsecure IRQs</td></tr>
+    <tr><td><span class="mono">IORT</span></td><td>I/O Relationship Table — maps PCIe Requester ID → SMMU → memory</td></tr>
+    <tr><td><span class="mono">MCFG</span></td><td>PCIe ECAM base addresses per segment</td></tr>
+    <tr><td><span class="mono">PPTT</span></td><td>Processor Properties Topology — cores, clusters, caches, shared resources</td></tr>
+    <tr><td><span class="mono">SRAT / SLIT</span></td><td>NUMA topology — which memory ranges and cores share nodes, relative distances</td></tr>
+    <tr><td><span class="mono">HMAT</span></td><td>Heterogeneous Memory — latency/bandwidth between NUMA nodes (CXL-aware)</td></tr>
+    <tr><td><span class="mono">APMT</span></td><td>Arm PMU Table — describes coherent PMU outside the core (CMN PMU, SMMU PMU)</td></tr>
+    <tr><td><span class="mono">MPAM</span></td><td>MPAM configuration — which resources are partitionable</td></tr>
+    <tr><td><span class="mono">RAS / EINJ / HEST</span></td><td>RAS event injection and source table — portable across vendors</td></tr>
+  </table>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">11</span><h2>TF-A &amp; EDK2 — the Open-Source Plumbing</h2></div>
+  <div class="cols cols-2">
+    <div>
+      <ul>
+        <li><strong class="a">Trusted Firmware-A (TF-A)</strong> — canonical EL3 implementation. BSD licence. Supported by virtually every Arm server SoC vendor.</li>
+        <li>Supplies PSCI, SDEI, SMCCC, RAS handlers, EL3 secure monitor for TrustZone / RME.</li>
+        <li><strong class="a">EDK2</strong> (TianoCore) — the UEFI implementation that ships as BL33 on every SystemReady-SR box.</li>
+        <li>EDK2 provides UEFI Boot Services (LoadImage, AllocatePages) and Runtime Services (GetTime, SetVariable).</li>
+        <li>Linaro's <strong>OP-TEE</strong> is the canonical S-EL1 trusted OS — handles secure storage, fTPM, fingerprint, biometric matchers.</li>
+        <li>Together: <strong>EL3 TF-A + S-EL1 OP-TEE + EL2 hypervisor + EL1 Linux</strong> is a full stack, entirely open-source.</li>
+      </ul>
+    </div>
+    <div>
+      <div class="card green">
+        <h3 class="g">Impact on hiring</h3>
+        <p>If you're interviewing for a firmware or kernel role at Arm / AWS / Azure, knowing TF-A + EDK2 + OP-TEE is table stakes. These are where platform bring-up happens in 2024.</p>
+      </div>
+      <div class="card amber" style="margin-top:0.4em;">
+        <h3>Why open-source mattered</h3>
+        <p>x86 servers have had open-source firmware (coreboot) for years but non-dominantly. Arm servers made open-source the default from Graviton 2 onwards — reduced bring-up time for new silicon from ~18 months to ~6.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">12</span><h2>Virtualization Baseline — What a Neoverse VM Sees</h2></div>
+  <div class="cols cols-2">
+    <div>
+      <ul>
+        <li>Guest expects SBSA-level features emulated or passed through:
+          <ul>
+            <li>GICv3 with vGIC (virtual distributor)</li>
+            <li>vSMMU (if passing through PCIe)</li>
+            <li>Virtual PMU (PMUv3 + SPE if enabled)</li>
+            <li>Generic Timer + CNTVOFF_EL2 offset</li>
+          </ul>
+        </li>
+        <li>PSCI to the guest is a trap-and-emulate into KVM.</li>
+        <li><strong>SBSA Level 3</strong> is the practical "minimum VM guest" — anything newer is host-dependent.</li>
+        <li>CCA adds a <strong>Realm VM</strong> flavour where even the host hypervisor can't introspect guest memory.</li>
+      </ul>
+    </div>
+    <div>
+      <div class="card blue">
+        <h3 class="b">KVM on Arm</h3>
+        <p>KVM was architecturally identical to Xen on Arm from 2013 onwards. With VHE (v8.1-A) KVM became truly competitive with x86 KVM — no split-mode hypervisor overhead.</p>
+      </div>
+      <div class="card purple" style="margin-top:0.4em;">
+        <h3 class="p">Nested virt</h3>
+        <p>SBSA 5 supports nested virt via Armv8.4-A's FEAT_NV / NV2. AWS Nitro + Firecracker exploit this for micro-VM isolation.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">13</span><h2>Why SystemReady Matters to a Hiring Manager</h2></div>
+  <div class="cols cols-2">
+    <div>
+      <ul>
+        <li>A Neoverse hire is often responsible for one or more of:
+          <ul>
+            <li>Making a new SoC pass Arm ACS</li>
+            <li>Writing the ACPI tables</li>
+            <li>Debugging PSCI or SMCCC corner cases</li>
+            <li>Implementing MPAM at SLC</li>
+            <li>Certifying a box through SystemReady SR or ES</li>
+          </ul>
+        </li>
+        <li>A candidate who can't explain MADT, IORT, and PSCI is immediately out in 2024.</li>
+        <li>A candidate who knows the layering — <em>"SBSA says core count ≥ 4, SBBR says UEFI 2.7, ACS runs in UEFI shell"</em> — is in.</li>
+      </ul>
+    </div>
+    <div>
+      <div class="card amber">
+        <h3>The interview signal</h3>
+        <p>Ask: "Why does Ubuntu 22.04 boot on Graviton 3 but not on an older Armada-8K dev board?" The answer lives in SystemReady — Graviton is SR-certified, the Armada isn't. Most candidates never get past "it's Arm, they should both work".</p>
+      </div>
+      <div class="card green" style="margin-top:0.4em;">
+        <h3 class="g">For new grads</h3>
+        <p>Reading an <span class="mono">/proc/iomem</span>, <span class="mono">dmesg | grep ACPI</span>, and <span class="mono">efibootmgr -v</span> on a Neoverse box reveals the whole layered boot story in minutes. Better than any slide deck.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">14</span><h2>Lessons for the Interview</h2></div>
+  <div class="cols cols-2">
+    <div>
+      <ul>
+        <li><strong class="a">"What's the difference between SBSA and BSA?"</strong> → SBSA is server-specific; BSA is the superset covering servers, laptops, IoT, automotive. BSA came later (2019) as the unifying spec.</li>
+        <li><strong class="a">"What tables does the Linux kernel read to discover CPUs?"</strong> → MADT (GIC topology + CPU MPIDRs), PPTT (cache/package hierarchy), SRAT (NUMA).</li>
+        <li><strong class="a">"Who implements PSCI on a Neoverse box?"</strong> → EL3 TF-A. The OS <span class="mono">SMC</span>'s up with a PSCI function ID and TF-A executes it (power up a core, system reset).</li>
+      </ul>
+    </div>
+    <div>
+      <ul>
+        <li><strong class="g">"What's IORT for?"</strong> → maps PCIe Requester ID → SMMU stream ID → memory. Without it, DMA isolation for virt wouldn't work.</li>
+        <li><strong class="g">"Why SystemReady SR vs ES vs IR?"</strong> → SR = server (full UEFI + ACPI, distro boots); ES = embedded server (edge, 5G); IR = IoT (U-Boot allowed, simpler); LS = LinuxBoot-flavoured.</li>
+        <li><strong class="g">"What is the Arm ACS?"</strong> → Architecture Compliance Suite — 2000+ tests the silicon must pass for SystemReady certification. Runs in UEFI shell pre-OS.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">15</span><h2>References</h2></div>
+  <div style="max-width:90%;margin:0 auto;font-size:0.58em;line-height:1.8;">
+    <p>
+      <strong class="a">Arm Ltd.</strong> — <em>Server Base System Architecture</em> (ARM DEN 0029 / DEN 0094) — freely downloadable<br>
+      <strong class="a">Arm Ltd.</strong> — <em>Base System Architecture</em> (DEN 0094) + <em>Base Boot Requirements</em> (DEN 0044)<br>
+      <strong class="a">Arm Ltd.</strong> — <em>Server Base Boot Requirements</em> (DEN 0044C) — UEFI + ACPI + SMBIOS profile<br>
+      <strong class="a">Arm Ltd.</strong> — <em>SystemReady Certification Program</em> documentation — arm.com/systemready<br>
+      <strong class="a">Trusted Firmware-A</strong> — <a href="https://trustedfirmware.org">trustedfirmware.org</a><br>
+      <strong class="a">TianoCore EDK2</strong> — github.com/tianocore/edk2<br>
+      <strong class="a">Linaro</strong> — <em>Reference Platforms &amp; Engineering Groups</em> — release notes for each SystemReady cycle<br>
+      <strong class="a">UEFI Forum</strong> — ACPI 6.5 Specification<br>
+      <strong class="a">Linux kernel</strong> — <span class="mono">drivers/acpi/arm64/</span>, <span class="mono">drivers/firmware/psci/</span>, <span class="mono">Documentation/arm64/booting.rst</span>
+    </p>
+    <p style="color:var(--muted);margin-top:0.8em;font-size:0.85em">
+      Presentation built with <a href="https://revealjs.com">Reveal.js 4.6</a> · Playfair Display + DM Sans + JetBrains Mono<br>
+      Educational use.
+    </p>
+  </div>
+</section>
+
+</div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/plugin/highlight/highlight.min.js"></script>
+<script>
+Reveal.initialize({ hash: true, slideNumber: 'c/t', transition: 'fade', transitionSpeed: 'fast', controls: true, progress: true, center: false, width: 1100, height: 900, margin: 0.01, plugins: [RevealHighlight], highlight: { theme: 'monokai' } });
+</script>
+<script>
+(function(){ var h = Reveal.getConfig().height || 900; var m = Reveal.getConfig().margin || 0.02; var maxH = Math.floor(h * (1 - 2 * m)) + 'px'; function fixSlides(){ document.querySelectorAll('.reveal .slides>section,.reveal .slides>section>section').forEach(function(s){ s.style.display = 'block'; s.style.maxHeight = maxH; }); } Reveal.on('ready', fixSlides); Reveal.on('slidechanged', fixSlides); })();
+</script>
+</body>
+</html>

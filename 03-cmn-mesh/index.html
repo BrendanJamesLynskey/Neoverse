@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/theme/black.min.css">
 <style>
-  :root { --amber:#f5a623;--green:#4ecb8d;--purple:#a78bfa;--blue:#60a5fa;--red:#f87171; --bg:#0a0a0f;--bg2:#10101a;--bg3:#181824;--border:#2a2a3a;--text:#e8e8f0;--muted:#8888a8; }
+  :root { --amber:#f4c44d;--green:#87d5bb;--purple:#c7b9fe;--blue:#a5dcfe;--red:#fd8c79; --bg:#10294a;--bg2:#143154;--bg3:#18375d;--border:#305782;--text:#ecf1f7;--muted:#8eaac7; }
   .reveal-viewport { background: var(--bg); }
   .reveal .slides section { background: transparent; }
   .reveal section { text-align: left; }
@@ -19,7 +19,7 @@
   .reveal section::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--amber), var(--green)); }
   .reveal { font-family: 'DM Sans', sans-serif; color: var(--text); font-size: 22px; }
   .reveal .slide-number { font-family: 'JetBrains Mono', monospace; font-size: 0.7em; color: var(--muted); }
-  .reveal h1, .reveal h2, .reveal h3 { font-family: 'Playfair Display', serif; color: #fff; text-transform: none; letter-spacing: -0.01em; }
+  .reveal h1, .reveal h2, .reveal h3 { font-family: 'Playfair Display', serif; color: #ffffff; text-transform: none; letter-spacing: -0.01em; }
   .reveal h1 { font-size: 2.4em; font-weight: 900; color: var(--amber); line-height: 1.1; }
   .reveal h2 { font-size: 1.7em; font-weight: 700; color: var(--amber); margin-bottom: 0.6em; }
   .reveal h3 { font-size: 1.2em; font-weight: 700; color: var(--green); margin-bottom: 0.3em; }
@@ -27,19 +27,19 @@
   .reveal li { font-size: 0.7em; line-height: 1.5; margin-bottom: 0.25em; }
   .reveal code { font-family: 'JetBrains Mono', monospace; font-size: .72em; }
   .reveal pre  { background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 0.5em 1em; margin: 0.4em 0; width: 100%; box-shadow: none; }
-  .reveal pre code { font-size: 0.58em; line-height: 1.5; background: transparent; color: #cdd6f4; }
+  .reveal pre code { font-size: 0.58em; line-height: 1.5; background: transparent; color: #dbe5ef; }
   .slide-hdr { display: flex; align-items: center; gap: .4em; border-bottom: 1px solid var(--border); padding-bottom: .2em; margin-bottom: .3em; }
   .slide-hdr .tag { font-family: 'JetBrains Mono', monospace; font-size: 0.55em; font-weight: 600; color: var(--bg); background: var(--amber); padding: .1em .4em; border-radius: 3px; letter-spacing: .04em; }
   .slide-hdr h2 { margin: 0; font-size: 1.4em; }
   .cols{display:grid;gap:1em;} .cols-2{grid-template-columns:1fr 1fr;} .cols-3{grid-template-columns:1fr 1fr 1fr;} .cols-6040{grid-template-columns:6fr 4fr;} .cols-4060{grid-template-columns:4fr 6fr;}
-  .card { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 1em 1.2em; box-shadow: 0 4px 20px rgba(0,0,0,0.3); margin: 0.4em 0; }
+  .card { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 1em 1.2em; box-shadow: 0 4px 20px rgba(10,31,58,0.3); margin: 0.4em 0; }
   .card.amber { border-left: 3px solid var(--amber); } .card.green { border-left: 3px solid var(--green); } .card.purple{ border-left: 3px solid var(--purple); } .card.blue  { border-left: 3px solid var(--blue); } .card.red   { border-left: 3px solid var(--red); }
   .card h3 { font-size: 1em; margin: 0 0 0.4em; }
-  .card p, .card ul { font-size: 0.8em; margin: 0; color: #b8b8d0; } .card ul { padding-left: 1.2em; } .card li { font-size: 0.85em; margin-bottom: 0.25em; }
+  .card p, .card ul { font-size: 0.8em; margin: 0; color: #bfd1e2; } .card ul { padding-left: 1.2em; } .card li { font-size: 0.85em; margin-bottom: 0.25em; }
   .reveal table { width: 100%; border-collapse: collapse; font-size: 0.65em; margin: 0.5em 0; }
   .reveal table th { background: var(--bg3); color: var(--amber); padding: 0.5em 0.7em; border: 1px solid var(--border); text-align: left; font-weight: 700; }
-  .reveal table td { padding: 0.5em 0.7em; border: 1px solid var(--border); color: #ccc; vertical-align: top; }
-  .reveal table tr:nth-child(even) td { background: #0e0e18; }
+  .reveal table td { padding: 0.5em 0.7em; border: 1px solid var(--border); color: #d0ddea; vertical-align: top; }
+  .reveal table tr:nth-child(even) td { background: #132f51; }
   .a{color:var(--amber);font-weight:600;} .g{color:var(--green);font-weight:600;} .p{color:var(--purple);font-weight:600;} .b{color:var(--blue);font-weight:600;} .r{color:var(--red);font-weight:600;} .mono{font-family:'JetBrains Mono',monospace;}
   svg.diagram { display: block; margin: 0 auto; overflow: visible; }
   .title-slide h1 { font-size: 2.4em; } .title-slide .subtitle { font-size: 0.85em; color: var(--green); font-weight: 400; letter-spacing: 0.06em; margin: 0.3em 0 0.6em; } .title-slide .meta { font-size: 0.6em; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
@@ -51,7 +51,7 @@
 <div class="reveal">
 <div class="slides">
 
-<section class="title-slide" data-background-color="#0a0a0f">
+<section class="title-slide" data-background-color="#10294a">
   <div style="font-family:'JetBrains Mono',monospace;font-size:.5em;color:var(--muted);margin-bottom:.4em;letter-spacing:.1em;">ARM NEOVERSE · PRESENTATION 03</div>
   <h1>CMN Mesh Interconnect</h1>
   <div class="subtitle">CMN-600 · 650 · 700 · S3 · the fabric that makes 192-core sockets possible</div>
@@ -59,7 +59,7 @@
   <div class="meta">RN-F · HN-F · SN-F · RN-I · MN · SLC slicing · Snoop filter · CHI-B/C/E · CCIX · CXL · UCIe</div>
 </section>
 
-<section data-background-color="#0a0a0f">
+<section data-background-color="#10294a">
   <div class="slide-hdr"><span class="tag">02</span><h2>Why a Mesh, Not a Bus</h2></div>
   <div class="cols cols-2">
     <div>
@@ -73,9 +73,9 @@
     </div>
     <div>
       <svg viewBox="0 0 340 240" style="width:100%;">
-        <rect x="10" y="10" width="320" height="220" rx="10" fill="#10101a" stroke="#f5a623"/>
-        <text x="170" y="32" text-anchor="middle" fill="#f5a623" font-family="Playfair Display" font-weight="700" font-size="13">CMN mesh, 4×4 tiles</text>
-        <g stroke="#555" stroke-width="1">
+        <rect x="10" y="10" width="320" height="220" rx="10" fill="#143154" stroke="#f4c44d"/>
+        <text x="170" y="32" text-anchor="middle" fill="#f4c44d" font-family="Playfair Display" font-weight="700" font-size="13">CMN mesh, 4×4 tiles</text>
+        <g stroke="#4c7198" stroke-width="1">
           <!-- horizontal -->
           <line x1="70" y1="70" x2="280" y2="70"/>
           <line x1="70" y1="110" x2="280" y2="110"/>
@@ -88,30 +88,30 @@
           <line x1="280" y1="70" x2="280" y2="190"/>
         </g>
         <g font-family="JetBrains Mono" font-size="8">
-          <circle cx="70" cy="70"  r="10" fill="#2a1a0a" stroke="#f5a623"/><text x="70" y="73" text-anchor="middle" fill="#f5a623">R</text>
-          <circle cx="140" cy="70" r="10" fill="#2a1a0a" stroke="#f5a623"/><text x="140" y="73" text-anchor="middle" fill="#f5a623">R</text>
-          <circle cx="210" cy="70" r="10" fill="#1f3a1f" stroke="#4ecb8d"/><text x="210" y="73" text-anchor="middle" fill="#4ecb8d">H</text>
-          <circle cx="280" cy="70" r="10" fill="#1a2540" stroke="#60a5fa"/><text x="280" y="73" text-anchor="middle" fill="#60a5fa">S</text>
-          <circle cx="70" cy="110" r="10" fill="#2a1a0a" stroke="#f5a623"/><text x="70" y="113" text-anchor="middle" fill="#f5a623">R</text>
-          <circle cx="140" cy="110" r="10" fill="#1f3a1f" stroke="#4ecb8d"/><text x="140" y="113" text-anchor="middle" fill="#4ecb8d">H</text>
-          <circle cx="210" cy="110" r="10" fill="#2a1a0a" stroke="#f5a623"/><text x="210" y="113" text-anchor="middle" fill="#f5a623">R</text>
-          <circle cx="280" cy="110" r="10" fill="#2a1a2a" stroke="#a78bfa"/><text x="280" y="113" text-anchor="middle" fill="#a78bfa">I</text>
-          <circle cx="70" cy="150" r="10" fill="#1a2540" stroke="#60a5fa"/><text x="70" y="153" text-anchor="middle" fill="#60a5fa">S</text>
-          <circle cx="140" cy="150" r="10" fill="#2a1a0a" stroke="#f5a623"/><text x="140" y="153" text-anchor="middle" fill="#f5a623">R</text>
-          <circle cx="210" cy="150" r="10" fill="#1f3a1f" stroke="#4ecb8d"/><text x="210" y="153" text-anchor="middle" fill="#4ecb8d">H</text>
-          <circle cx="280" cy="150" r="10" fill="#2a1a0a" stroke="#f5a623"/><text x="280" y="153" text-anchor="middle" fill="#f5a623">R</text>
-          <circle cx="70" cy="190" r="10" fill="#2a1a2a" stroke="#a78bfa"/><text x="70" y="193" text-anchor="middle" fill="#a78bfa">I</text>
-          <circle cx="140" cy="190" r="10" fill="#1a2540" stroke="#60a5fa"/><text x="140" y="193" text-anchor="middle" fill="#60a5fa">S</text>
-          <circle cx="210" cy="190" r="10" fill="#2a1a0a" stroke="#f5a623"/><text x="210" y="193" text-anchor="middle" fill="#f5a623">R</text>
-          <circle cx="280" cy="190" r="10" fill="#1f3a1f" stroke="#4ecb8d"/><text x="280" y="193" text-anchor="middle" fill="#4ecb8d">H</text>
+          <circle cx="70" cy="70"  r="10" fill="#3f3f3a" stroke="#f4c44d"/><text x="70" y="73" text-anchor="middle" fill="#f4c44d">R</text>
+          <circle cx="140" cy="70" r="10" fill="#3f3f3a" stroke="#f4c44d"/><text x="140" y="73" text-anchor="middle" fill="#f4c44d">R</text>
+          <circle cx="210" cy="70" r="10" fill="#475f53" stroke="#87d5bb"/><text x="210" y="73" text-anchor="middle" fill="#87d5bb">H</text>
+          <circle cx="280" cy="70" r="10" fill="#2d5077" stroke="#a5dcfe"/><text x="280" y="73" text-anchor="middle" fill="#a5dcfe">S</text>
+          <circle cx="70" cy="110" r="10" fill="#3f3f3a" stroke="#f4c44d"/><text x="70" y="113" text-anchor="middle" fill="#f4c44d">R</text>
+          <circle cx="140" cy="110" r="10" fill="#475f53" stroke="#87d5bb"/><text x="140" y="113" text-anchor="middle" fill="#87d5bb">H</text>
+          <circle cx="210" cy="110" r="10" fill="#3f3f3a" stroke="#f4c44d"/><text x="210" y="113" text-anchor="middle" fill="#f4c44d">R</text>
+          <circle cx="280" cy="110" r="10" fill="#414255" stroke="#c7b9fe"/><text x="280" y="113" text-anchor="middle" fill="#c7b9fe">I</text>
+          <circle cx="70" cy="150" r="10" fill="#2d5077" stroke="#a5dcfe"/><text x="70" y="153" text-anchor="middle" fill="#a5dcfe">S</text>
+          <circle cx="140" cy="150" r="10" fill="#3f3f3a" stroke="#f4c44d"/><text x="140" y="153" text-anchor="middle" fill="#f4c44d">R</text>
+          <circle cx="210" cy="150" r="10" fill="#475f53" stroke="#87d5bb"/><text x="210" y="153" text-anchor="middle" fill="#87d5bb">H</text>
+          <circle cx="280" cy="150" r="10" fill="#3f3f3a" stroke="#f4c44d"/><text x="280" y="153" text-anchor="middle" fill="#f4c44d">R</text>
+          <circle cx="70" cy="190" r="10" fill="#414255" stroke="#c7b9fe"/><text x="70" y="193" text-anchor="middle" fill="#c7b9fe">I</text>
+          <circle cx="140" cy="190" r="10" fill="#2d5077" stroke="#a5dcfe"/><text x="140" y="193" text-anchor="middle" fill="#a5dcfe">S</text>
+          <circle cx="210" cy="190" r="10" fill="#3f3f3a" stroke="#f4c44d"/><text x="210" y="193" text-anchor="middle" fill="#f4c44d">R</text>
+          <circle cx="280" cy="190" r="10" fill="#475f53" stroke="#87d5bb"/><text x="280" y="193" text-anchor="middle" fill="#87d5bb">H</text>
         </g>
-        <text x="20" y="220" font-family="JetBrains Mono" font-size="8" fill="#cdd6f4">R=RN-F (core)  H=HN-F (home/SLC)  S=SN-F (DRAM)  I=RN-I (I/O)</text>
+        <text x="20" y="220" font-family="JetBrains Mono" font-size="8" fill="#dbe5ef">R=RN-F (core)  H=HN-F (home/SLC)  S=SN-F (DRAM)  I=RN-I (I/O)</text>
       </svg>
     </div>
   </div>
 </section>
 
-<section data-background-color="#0a0a0f">
+<section data-background-color="#10294a">
   <div class="slide-hdr"><span class="tag">03</span><h2>Node Types in a CMN Mesh</h2></div>
   <table>
     <tr><th>Node</th><th>Type</th><th>Role</th></tr>
@@ -127,7 +127,7 @@
   <p class="small">The <strong>HN-F is the star of the show</strong> — it holds the snoop filter (directory) for its address range + a slice of the shared last-level cache (SLC). Every read to a coherent address goes to the HN-F for that address.</p>
 </section>
 
-<section data-background-color="#0a0a0f">
+<section data-background-color="#10294a">
   <div class="slide-hdr"><span class="tag">04</span><h2>SLC Slicing — Distributed Last-Level Cache</h2></div>
   <div class="cols cols-2">
     <div>
@@ -153,7 +153,7 @@
   </div>
 </section>
 
-<section data-background-color="#0a0a0f">
+<section data-background-color="#10294a">
   <div class="slide-hdr"><span class="tag">05</span><h2>The Four CHI Message Channels</h2></div>
   <table>
     <tr><th>Channel</th><th>Direction</th><th>Purpose</th></tr>
@@ -169,7 +169,7 @@
   </div>
 </section>
 
-<section data-background-color="#0a0a0f">
+<section data-background-color="#10294a">
   <div class="slide-hdr"><span class="tag">06</span><h2>DMT &amp; DCT — Direct Transfer Optimizations</h2></div>
   <div class="cols cols-2">
     <div>
@@ -193,7 +193,7 @@
   </div>
 </section>
 
-<section data-background-color="#0a0a0f">
+<section data-background-color="#10294a">
   <div class="slide-hdr"><span class="tag">07</span><h2>CMN-600 — the First Neoverse Mesh (2018)</h2></div>
   <div class="cols cols-2">
     <div>
@@ -224,7 +224,7 @@
   </div>
 </section>
 
-<section data-background-color="#0a0a0f">
+<section data-background-color="#10294a">
   <div class="slide-hdr"><span class="tag">08</span><h2>CMN-700 — the v9 Generation (2021)</h2></div>
   <div class="cols cols-2">
     <div>
@@ -251,7 +251,7 @@
   </div>
 </section>
 
-<section data-background-color="#0a0a0f">
+<section data-background-color="#10294a">
   <div class="slide-hdr"><span class="tag">09</span><h2>CMN S3 — the 2024 Chiplet-Aware Mesh</h2></div>
   <div class="cols cols-2">
     <div>
@@ -282,7 +282,7 @@
   </div>
 </section>
 
-<section data-background-color="#0a0a0f">
+<section data-background-color="#10294a">
   <div class="slide-hdr"><span class="tag">10</span><h2>CMN Generations Side-by-Side</h2></div>
   <table>
     <tr><th>Gen</th><th>Year</th><th>Max mesh</th><th>CHI version</th><th>PCIe / CXL / CCIX</th><th>Shipping in</th></tr>
@@ -294,7 +294,7 @@
   <p class="small">The trend: more tiles per mesh, higher-frequency links, and cleaner integration with CXL (for memory pooling) and UCIe (for chiplets). Every CHI generation is a strict superset of the prior one.</p>
 </section>
 
-<section data-background-color="#0a0a0f">
+<section data-background-color="#10294a">
   <div class="slide-hdr"><span class="tag">11</span><h2>Memory Controllers &amp; SN-F Nodes</h2></div>
   <div class="cols cols-2">
     <div>
@@ -325,7 +325,7 @@
   </div>
 </section>
 
-<section data-background-color="#0a0a0f">
+<section data-background-color="#10294a">
   <div class="slide-hdr"><span class="tag">12</span><h2>I/O Sub-system — RN-I, SMMU, PCIe</h2></div>
   <div class="cols cols-2">
     <div>
@@ -345,22 +345,22 @@
     </div>
     <div>
       <svg viewBox="0 0 340 220" style="width:100%;">
-        <rect x="10" y="10" width="320" height="200" rx="10" fill="#10101a" stroke="#f5a623"/>
-        <text x="170" y="32" text-anchor="middle" fill="#f5a623" font-family="Playfair Display" font-weight="700" font-size="13">I/O path on CMN</text>
-        <rect x="30" y="55" width="280" height="35" rx="4" fill="#2a1a0a" stroke="#f5a623"/>
-        <text x="170" y="78" text-anchor="middle" fill="#f5a623" font-family="JetBrains Mono" font-size="10">PCIe 5 / 6 controller</text>
-        <rect x="30" y="100" width="280" height="35" rx="4" fill="#1a2540" stroke="#60a5fa"/>
-        <text x="170" y="123" text-anchor="middle" fill="#60a5fa" font-family="JetBrains Mono" font-size="10">SMMU-700 (stage 1 + 2, ATS, PRI)</text>
-        <rect x="30" y="145" width="280" height="35" rx="4" fill="#1f3a1f" stroke="#4ecb8d"/>
-        <text x="170" y="168" text-anchor="middle" fill="#4ecb8d" font-family="JetBrains Mono" font-size="10">RN-I — on CMN mesh</text>
-        <rect x="30" y="185" width="280" height="20" rx="3" fill="#0e0e18" stroke="#555"/>
-        <text x="170" y="200" text-anchor="middle" fill="#cdd6f4" font-family="JetBrains Mono" font-size="9">coherent CHI to HN-F / SLC</text>
+        <rect x="10" y="10" width="320" height="200" rx="10" fill="#143154" stroke="#f4c44d"/>
+        <text x="170" y="32" text-anchor="middle" fill="#f4c44d" font-family="Playfair Display" font-weight="700" font-size="13">I/O path on CMN</text>
+        <rect x="30" y="55" width="280" height="35" rx="4" fill="#3f3f3a" stroke="#f4c44d"/>
+        <text x="170" y="78" text-anchor="middle" fill="#f4c44d" font-family="JetBrains Mono" font-size="10">PCIe 5 / 6 controller</text>
+        <rect x="30" y="100" width="280" height="35" rx="4" fill="#2d5077" stroke="#a5dcfe"/>
+        <text x="170" y="123" text-anchor="middle" fill="#a5dcfe" font-family="JetBrains Mono" font-size="10">SMMU-700 (stage 1 + 2, ATS, PRI)</text>
+        <rect x="30" y="145" width="280" height="35" rx="4" fill="#475f53" stroke="#87d5bb"/>
+        <text x="170" y="168" text-anchor="middle" fill="#87d5bb" font-family="JetBrains Mono" font-size="10">RN-I — on CMN mesh</text>
+        <rect x="30" y="185" width="280" height="20" rx="3" fill="#132f51" stroke="#4c7198"/>
+        <text x="170" y="200" text-anchor="middle" fill="#dbe5ef" font-family="JetBrains Mono" font-size="9">coherent CHI to HN-F / SLC</text>
       </svg>
     </div>
   </div>
 </section>
 
-<section data-background-color="#0a0a0f">
+<section data-background-color="#10294a">
   <div class="slide-hdr"><span class="tag">13</span><h2>Performance Features of CMN</h2></div>
   <div class="cols cols-2">
     <div>
@@ -386,7 +386,7 @@
   </div>
 </section>
 
-<section data-background-color="#0a0a0f">
+<section data-background-color="#10294a">
   <div class="slide-hdr"><span class="tag">14</span><h2>CMN vs Intel Mesh vs AMD Infinity Fabric</h2></div>
   <table>
     <tr><th>Property</th><th>Arm CMN-700 / S3</th><th>Intel Mesh (Sapphire/Granite)</th><th>AMD Infinity Fabric 4</th></tr>
@@ -400,7 +400,7 @@
   <p class="small">All three converged on mesh + directory coherence for 64+ cores. Biggest differentiator for Arm: standardised <strong>CHI protocol</strong>, which means IP from Arm, Synopsys, and customers interoperate at RTL level.</p>
 </section>
 
-<section data-background-color="#0a0a0f">
+<section data-background-color="#10294a">
   <div class="slide-hdr"><span class="tag">15</span><h2>Lessons</h2></div>
   <div class="cols cols-2">
     <div>
@@ -419,7 +419,7 @@
   </div>
 </section>
 
-<section data-background-color="#0a0a0f">
+<section data-background-color="#10294a">
   <div class="slide-hdr"><span class="tag">16</span><h2>References</h2></div>
   <div style="max-width:90%;margin:0 auto;font-size:0.58em;line-height:1.8;">
     <p>

@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/theme/black.min.css">
 <style>
-  :root { --amber:#f5a623;--green:#4ecb8d;--purple:#a78bfa;--blue:#60a5fa;--red:#f87171; --bg:#0a0a0f;--bg2:#10101a;--bg3:#181824;--border:#2a2a3a;--text:#e8e8f0;--muted:#8888a8; }
+  :root { --amber:#f4c44d;--green:#87d5bb;--purple:#c7b9fe;--blue:#a5dcfe;--red:#fd8c79; --bg:#10294a;--bg2:#143154;--bg3:#18375d;--border:#305782;--text:#ecf1f7;--muted:#8eaac7; }
   .reveal-viewport { background: var(--bg); }
   .reveal .slides section { background: transparent; }
   .reveal section { text-align: left; }
@@ -19,7 +19,7 @@
   .reveal section::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--amber), var(--green)); }
   .reveal { font-family: 'DM Sans', sans-serif; color: var(--text); font-size: 22px; }
   .reveal .slide-number { font-family: 'JetBrains Mono', monospace; font-size: 0.7em; color: var(--muted); }
-  .reveal h1, .reveal h2, .reveal h3 { font-family: 'Playfair Display', serif; color: #fff; text-transform: none; letter-spacing: -0.01em; }
+  .reveal h1, .reveal h2, .reveal h3 { font-family: 'Playfair Display', serif; color: #ffffff; text-transform: none; letter-spacing: -0.01em; }
   .reveal h1 { font-size: 2.4em; font-weight: 900; color: var(--amber); line-height: 1.1; }
   .reveal h2 { font-size: 1.7em; font-weight: 700; color: var(--amber); margin-bottom: 0.6em; }
   .reveal h3 { font-size: 1.2em; font-weight: 700; color: var(--green); margin-bottom: 0.3em; }
@@ -27,19 +27,19 @@
   .reveal li { font-size: 0.7em; line-height: 1.5; margin-bottom: 0.25em; }
   .reveal code { font-family: 'JetBrains Mono', monospace; font-size: .72em; }
   .reveal pre  { background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 0.5em 1em; margin: 0.4em 0; width: 100%; box-shadow: none; }
-  .reveal pre code { font-size: 0.58em; line-height: 1.5; background: transparent; color: #cdd6f4; }
+  .reveal pre code { font-size: 0.58em; line-height: 1.5; background: transparent; color: #dbe5ef; }
   .slide-hdr { display: flex; align-items: center; gap: .4em; border-bottom: 1px solid var(--border); padding-bottom: .2em; margin-bottom: .3em; }
   .slide-hdr .tag { font-family: 'JetBrains Mono', monospace; font-size: 0.55em; font-weight: 600; color: var(--bg); background: var(--amber); padding: .1em .4em; border-radius: 3px; letter-spacing: .04em; }
   .slide-hdr h2 { margin: 0; font-size: 1.4em; }
   .cols{display:grid;gap:1em;} .cols-2{grid-template-columns:1fr 1fr;} .cols-3{grid-template-columns:1fr 1fr 1fr;} .cols-6040{grid-template-columns:6fr 4fr;} .cols-4060{grid-template-columns:4fr 6fr;}
-  .card { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 1em 1.2em; box-shadow: 0 4px 20px rgba(0,0,0,0.3); margin: 0.4em 0; }
+  .card { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 1em 1.2em; box-shadow: 0 4px 20px rgba(10,31,58,0.3); margin: 0.4em 0; }
   .card.amber { border-left: 3px solid var(--amber); } .card.green { border-left: 3px solid var(--green); } .card.purple{ border-left: 3px solid var(--purple); } .card.blue  { border-left: 3px solid var(--blue); } .card.red   { border-left: 3px solid var(--red); }
   .card h3 { font-size: 1em; margin: 0 0 0.4em; }
-  .card p, .card ul { font-size: 0.8em; margin: 0; color: #b8b8d0; } .card ul { padding-left: 1.2em; } .card li { font-size: 0.85em; margin-bottom: 0.25em; }
+  .card p, .card ul { font-size: 0.8em; margin: 0; color: #bfd1e2; } .card ul { padding-left: 1.2em; } .card li { font-size: 0.85em; margin-bottom: 0.25em; }
   .reveal table { width: 100%; border-collapse: collapse; font-size: 0.65em; margin: 0.5em 0; }
   .reveal table th { background: var(--bg3); color: var(--amber); padding: 0.5em 0.7em; border: 1px solid var(--border); text-align: left; font-weight: 700; }
-  .reveal table td { padding: 0.5em 0.7em; border: 1px solid var(--border); color: #ccc; vertical-align: top; }
-  .reveal table tr:nth-child(even) td { background: #0e0e18; }
+  .reveal table td { padding: 0.5em 0.7em; border: 1px solid var(--border); color: #d0ddea; vertical-align: top; }
+  .reveal table tr:nth-child(even) td { background: #132f51; }
   .a{color:var(--amber);font-weight:600;} .g{color:var(--green);font-weight:600;} .p{color:var(--purple);font-weight:600;} .b{color:var(--blue);font-weight:600;} .r{color:var(--red);font-weight:600;} .mono{font-family:'JetBrains Mono',monospace;}
   svg.diagram { display: block; margin: 0 auto; overflow: visible; }
   .title-slide h1 { font-size: 2.4em; } .title-slide .subtitle { font-size: 0.85em; color: var(--green); font-weight: 400; letter-spacing: 0.06em; margin: 0.3em 0 0.6em; } .title-slide .meta { font-size: 0.6em; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
@@ -51,7 +51,7 @@
 <div class="reveal">
 <div class="slides">
 
-<section class="title-slide" data-background-color="#0a0a0f">
+<section class="title-slide" data-background-color="#10294a">
   <div style="font-family:'JetBrains Mono',monospace;font-size:.5em;color:var(--muted);margin-bottom:.4em;letter-spacing:.1em;">ARM NEOVERSE · PRESENTATION 04</div>
   <h1>SBSA, SystemReady &amp; the Platform Contract</h1>
   <div class="subtitle">What makes a Neoverse SoC into a server you can just boot Ubuntu on</div>
@@ -59,7 +59,7 @@
   <div class="meta">SBSA levels 3-7 · SBBR · BSA · SystemReady SR / ES / IR / LS · UEFI + ACPI on Arm</div>
 </section>
 
-<section data-background-color="#0a0a0f">
+<section data-background-color="#10294a">
   <div class="slide-hdr"><span class="tag">02</span><h2>The Pre-SBSA Problem</h2></div>
   <div class="cols cols-2">
     <div>
@@ -83,7 +83,7 @@
   </div>
 </section>
 
-<section data-background-color="#0a0a0f">
+<section data-background-color="#10294a">
   <div class="slide-hdr"><span class="tag">03</span><h2>The Standards Stack</h2></div>
   <table>
     <tr><th>Spec</th><th>What it defines</th><th>Who consumes it</th></tr>
@@ -97,7 +97,7 @@
   <p class="small">Think of it as three layers: <strong>SBSA/BSA</strong> says what the silicon must have; <strong>SBBR/BBR</strong> says what the firmware must expose; <strong>SystemReady</strong> is the stamp that says &quot;a distro can boot unmodified on this box&quot;.</p>
 </section>
 
-<section data-background-color="#0a0a0f">
+<section data-background-color="#10294a">
   <div class="slide-hdr"><span class="tag">04</span><h2>SBSA Levels — 3 through 7</h2></div>
   <table>
     <tr><th>Level</th><th>Year</th><th>Key additions</th></tr>
@@ -113,7 +113,7 @@
   </div>
 </section>
 
-<section data-background-color="#0a0a0f">
+<section data-background-color="#10294a">
   <div class="slide-hdr"><span class="tag">05</span><h2>Core Mandatory IP Under SBSA</h2></div>
   <div class="cols cols-2">
     <div>
@@ -141,7 +141,7 @@
   </div>
 </section>
 
-<section data-background-color="#0a0a0f">
+<section data-background-color="#10294a">
   <div class="slide-hdr"><span class="tag">06</span><h2>SBBR — What the Firmware Must Do</h2></div>
   <div class="cols cols-2">
     <div>
@@ -181,7 +181,7 @@ UEFI -&gt; grub-aa64.efi -&gt; vmlinuz + initrd
   </div>
 </section>
 
-<section data-background-color="#0a0a0f">
+<section data-background-color="#10294a">
   <div class="slide-hdr"><span class="tag">07</span><h2>BSA — the Superset for All Arm Platforms</h2></div>
   <div class="cols cols-2">
     <div>
@@ -212,7 +212,7 @@ UEFI -&gt; grub-aa64.efi -&gt; vmlinuz + initrd
   </div>
 </section>
 
-<section data-background-color="#0a0a0f">
+<section data-background-color="#10294a">
   <div class="slide-hdr"><span class="tag">08</span><h2>SystemReady — the Certification Tiers</h2></div>
   <table>
     <tr><th>Tier</th><th>Scope</th><th>Target</th><th>Example platforms</th></tr>
@@ -225,28 +225,28 @@ UEFI -&gt; grub-aa64.efi -&gt; vmlinuz + initrd
   <p class="small">All SystemReady tiers run the <strong>Arm ACS</strong> (Architecture Compliance Suite) — a set of ~2500 automated tests that must pass before a vendor claims certification. Published pass lists are at <a href="https://www.arm.com/architecture/system-architectures/systemready-certification-program" style="color:var(--blue);">arm.com/SystemReady</a>.</p>
 </section>
 
-<section data-background-color="#0a0a0f">
+<section data-background-color="#10294a">
   <div class="slide-hdr"><span class="tag">09</span><h2>Linux Boot Path on a SystemReady-SR Box</h2></div>
   <div class="cols cols-2">
     <div>
       <svg viewBox="0 0 320 300" style="width:100%;">
-        <rect x="10" y="10" width="300" height="280" rx="10" fill="#10101a" stroke="#f5a623"/>
-        <rect x="30" y="25" width="260" height="30" rx="3" fill="#2a0a1a" stroke="#f87171"/>
-        <text x="160" y="45" text-anchor="middle" fill="#f87171" font-family="JetBrains Mono" font-size="10">Mask ROM / BL1 (on-chip)</text>
-        <rect x="30" y="60" width="260" height="30" rx="3" fill="#2a1a0a" stroke="#f5a623"/>
-        <text x="160" y="80" text-anchor="middle" fill="#f5a623" font-family="JetBrains Mono" font-size="10">BL2 — DRAM bring-up, board init</text>
-        <rect x="30" y="95" width="260" height="30" rx="3" fill="#2a1a0a" stroke="#f5a623"/>
-        <text x="160" y="115" text-anchor="middle" fill="#f5a623" font-family="JetBrains Mono" font-size="10">BL31 — EL3 TF-A, PSCI, SDEI, SMCCC</text>
-        <rect x="30" y="130" width="260" height="30" rx="3" fill="#1f3a1f" stroke="#4ecb8d"/>
-        <text x="160" y="150" text-anchor="middle" fill="#4ecb8d" font-family="JetBrains Mono" font-size="10">BL32 — S-EL1 OP-TEE (optional)</text>
-        <rect x="30" y="165" width="260" height="30" rx="3" fill="#1a2540" stroke="#60a5fa"/>
-        <text x="160" y="185" text-anchor="middle" fill="#60a5fa" font-family="JetBrains Mono" font-size="10">BL33 — UEFI (EDK2 EL2)</text>
-        <rect x="30" y="200" width="260" height="30" rx="3" fill="#2a1a2a" stroke="#a78bfa"/>
-        <text x="160" y="220" text-anchor="middle" fill="#a78bfa" font-family="JetBrains Mono" font-size="10">grub-aa64.efi (EL1)</text>
-        <rect x="30" y="235" width="260" height="30" rx="3" fill="#1a2540" stroke="#60a5fa"/>
-        <text x="160" y="255" text-anchor="middle" fill="#60a5fa" font-family="JetBrains Mono" font-size="10">Linux kernel + initramfs (EL1)</text>
-        <rect x="30" y="270" width="260" height="15" rx="3" fill="#0e0e18" stroke="#555"/>
-        <text x="160" y="282" text-anchor="middle" fill="#cdd6f4" font-family="JetBrains Mono" font-size="9">systemd / userspace / apps (EL0)</text>
+        <rect x="10" y="10" width="300" height="280" rx="10" fill="#143154" stroke="#f4c44d"/>
+        <rect x="30" y="25" width="260" height="30" rx="3" fill="#442e36" stroke="#fd8c79"/>
+        <text x="160" y="45" text-anchor="middle" fill="#fd8c79" font-family="JetBrains Mono" font-size="10">Mask ROM / BL1 (on-chip)</text>
+        <rect x="30" y="60" width="260" height="30" rx="3" fill="#3f3f3a" stroke="#f4c44d"/>
+        <text x="160" y="80" text-anchor="middle" fill="#f4c44d" font-family="JetBrains Mono" font-size="10">BL2 — DRAM bring-up, board init</text>
+        <rect x="30" y="95" width="260" height="30" rx="3" fill="#3f3f3a" stroke="#f4c44d"/>
+        <text x="160" y="115" text-anchor="middle" fill="#f4c44d" font-family="JetBrains Mono" font-size="10">BL31 — EL3 TF-A, PSCI, SDEI, SMCCC</text>
+        <rect x="30" y="130" width="260" height="30" rx="3" fill="#475f53" stroke="#87d5bb"/>
+        <text x="160" y="150" text-anchor="middle" fill="#87d5bb" font-family="JetBrains Mono" font-size="10">BL32 — S-EL1 OP-TEE (optional)</text>
+        <rect x="30" y="165" width="260" height="30" rx="3" fill="#2d5077" stroke="#a5dcfe"/>
+        <text x="160" y="185" text-anchor="middle" fill="#a5dcfe" font-family="JetBrains Mono" font-size="10">BL33 — UEFI (EDK2 EL2)</text>
+        <rect x="30" y="200" width="260" height="30" rx="3" fill="#414255" stroke="#c7b9fe"/>
+        <text x="160" y="220" text-anchor="middle" fill="#c7b9fe" font-family="JetBrains Mono" font-size="10">grub-aa64.efi (EL1)</text>
+        <rect x="30" y="235" width="260" height="30" rx="3" fill="#2d5077" stroke="#a5dcfe"/>
+        <text x="160" y="255" text-anchor="middle" fill="#a5dcfe" font-family="JetBrains Mono" font-size="10">Linux kernel + initramfs (EL1)</text>
+        <rect x="30" y="270" width="260" height="15" rx="3" fill="#132f51" stroke="#4c7198"/>
+        <text x="160" y="282" text-anchor="middle" fill="#dbe5ef" font-family="JetBrains Mono" font-size="9">systemd / userspace / apps (EL0)</text>
       </svg>
     </div>
     <div>
@@ -260,7 +260,7 @@ UEFI -&gt; grub-aa64.efi -&gt; vmlinuz + initrd
   </div>
 </section>
 
-<section data-background-color="#0a0a0f">
+<section data-background-color="#10294a">
   <div class="slide-hdr"><span class="tag">10</span><h2>ACPI Tables You'll See on Neoverse</h2></div>
   <table>
     <tr><th>Table</th><th>Contents</th></tr>
@@ -277,7 +277,7 @@ UEFI -&gt; grub-aa64.efi -&gt; vmlinuz + initrd
   </table>
 </section>
 
-<section data-background-color="#0a0a0f">
+<section data-background-color="#10294a">
   <div class="slide-hdr"><span class="tag">11</span><h2>TF-A &amp; EDK2 — the Open-Source Plumbing</h2></div>
   <div class="cols cols-2">
     <div>
@@ -303,7 +303,7 @@ UEFI -&gt; grub-aa64.efi -&gt; vmlinuz + initrd
   </div>
 </section>
 
-<section data-background-color="#0a0a0f">
+<section data-background-color="#10294a">
   <div class="slide-hdr"><span class="tag">12</span><h2>Virtualization Baseline — What a Neoverse VM Sees</h2></div>
   <div class="cols cols-2">
     <div>
@@ -334,7 +334,7 @@ UEFI -&gt; grub-aa64.efi -&gt; vmlinuz + initrd
   </div>
 </section>
 
-<section data-background-color="#0a0a0f">
+<section data-background-color="#10294a">
   <div class="slide-hdr"><span class="tag">13</span><h2>Why SystemReady Matters in Practice</h2></div>
   <div class="cols cols-2">
     <div>
@@ -365,7 +365,7 @@ UEFI -&gt; grub-aa64.efi -&gt; vmlinuz + initrd
   </div>
 </section>
 
-<section data-background-color="#0a0a0f">
+<section data-background-color="#10294a">
   <div class="slide-hdr"><span class="tag">14</span><h2>Lessons</h2></div>
   <div class="cols cols-2">
     <div>
@@ -385,7 +385,7 @@ UEFI -&gt; grub-aa64.efi -&gt; vmlinuz + initrd
   </div>
 </section>
 
-<section data-background-color="#0a0a0f">
+<section data-background-color="#10294a">
   <div class="slide-hdr"><span class="tag">15</span><h2>References</h2></div>
   <div style="max-width:90%;margin:0 auto;font-size:0.58em;line-height:1.8;">
     <p>

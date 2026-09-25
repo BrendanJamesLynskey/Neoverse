@@ -6,7 +6,7 @@
 <title>Arm Neoverse — Presentation Series</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Saira+Semi+Condensed:wght@400;500;600;700&family=Archivo:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,700&family=Share+Tech+Mono:wght@400&display=swap" rel="stylesheet" />
 <style>
   :root {
     --bg:      #10294a;
@@ -23,12 +23,12 @@
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { font-size: 16px; scroll-behavior: smooth; }
-  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh; }
+  body { font-family: 'Archivo', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh; }
   a { color: var(--blue); text-decoration: none; } a:hover { color: #c6e9fe; }
   .container { max-width: 920px; margin: 0 auto; padding: 3rem 1.5rem 4rem; }
   header { text-align: center; margin-bottom: 3.5rem; }
   header .icon { font-size: 3rem; margin-bottom: 0.5rem; }
-  header h1 { font-family: 'Playfair Display', serif; font-weight: 900; font-size: 2.8rem; letter-spacing: -0.02em; color: #fbfcfd; margin-bottom: 0.3rem; }
+  header h1 { font-family: 'Saira Semi Condensed', serif; font-weight: 900; font-size: 2.8rem; letter-spacing: -0.02em; color: #fbfcfd; margin-bottom: 0.3rem; }
   header .subtitle { font-size: 1.05rem; color: var(--accent); font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 1rem; }
   header p { color: var(--text2); max-width: 640px; margin: 0 auto; font-size: 0.95rem; }
   .grid { display: flex; flex-direction: column; gap: 1rem; }
@@ -36,20 +36,21 @@
   .card:hover { border-color: rgba(243,191,65,.3); box-shadow: 0 0 20px rgba(243,191,65,.06); }
   .card.active { border-color: rgba(243,191,65,.35); }
   .card.active:hover { box-shadow: 0 0 25px rgba(243,191,65,.1); }
-  .card .num { font-family: 'Playfair Display', serif; font-weight: 900; font-size: 1.8rem; color: var(--accent); text-align: center; line-height: 1; }
-  .card .info h2 { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1.15rem; color: #fbfcfd; margin-bottom: 0.2rem; }
+  .card .num { font-family: 'Saira Semi Condensed', serif; font-weight: 900; font-size: 1.8rem; color: var(--accent); text-align: center; line-height: 1; }
+  .card .info h2 { font-family: 'Saira Semi Condensed', serif; font-weight: 700; font-size: 1.15rem; color: #fbfcfd; margin-bottom: 0.2rem; }
   .card .info p { font-size: 0.82rem; color: var(--dim); line-height: 1.4; }
   .card .action { text-align: right; white-space: nowrap; display: flex; flex-direction: column; align-items: flex-end; gap: 0.4rem; }
   .btn { display: inline-block; padding: 0.45em 1.3em; border-radius: 6px; font-weight: 700; font-size: 0.85rem; transition: background 0.2s, transform 0.1s; }
   .btn:active { transform: scale(0.97); }
   .btn-launch { background: var(--accent); color: #10294a; }
   .btn-launch:hover { background: #fbd555; color: #10294a; }
-  .badge { display: inline-block; padding: 0.25em 0.8em; border-radius: 999px; font-size: 0.72rem; font-weight: 700; font-family: 'JetBrains Mono', monospace; }
+  .badge { display: inline-block; padding: 0.25em 0.8em; border-radius: 999px; font-size: 0.72rem; font-weight: 700; font-family: 'Share Tech Mono', monospace; }
   .badge-complete { background: rgba(115,199,175,.12); color: var(--green); border: 1px solid rgba(115,199,175,.25); }
   footer { text-align: center; margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border); font-size: 0.82rem; color: var(--dim); }
   footer a { color: var(--dim); } footer a:hover { color: var(--text2); }
   @media (max-width: 600px) { .card { grid-template-columns: 40px 1fr; gap: 0.8rem; } .card .action { grid-column: 1 / -1; text-align: left; } header h1 { font-size: 2rem; } }
 </style>
+<style>:root{font-synthesis-weight:none}</style>
 </head>
 <body>
 <div class="container">
@@ -126,7 +127,7 @@
 </div>
 
 <footer>
-  <p>Part of the <a href="https://github.com/BrendanJamesLynskey/Hardware">Hardware</a> portfolio · Built with <a href="https://revealjs.com">Reveal.js</a> · Playfair Display + DM Sans + JetBrains Mono</p>
+  <p>Part of the <a href="https://github.com/BrendanJamesLynskey/Hardware">Hardware</a> portfolio · Built with <a href="https://revealjs.com">Reveal.js</a> · Saira Semi Condensed + Archivo + Share Tech Mono</p>
   <p style="margin-top:0.4rem;">Educational use. Source on <a href="https://github.com/BrendanJamesLynskey/Neoverse">GitHub</a>.</p>
 </footer>
 
